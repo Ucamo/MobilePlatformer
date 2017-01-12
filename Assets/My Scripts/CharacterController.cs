@@ -3,12 +3,24 @@ using System.Collections;
 
 public class CharacterController : MonoBehaviour {
 
-	float speed=15f;
+	public float speed=15f;
+	public float jumpForce=450;
 	bool isRight;
 	bool isLeft;
 	bool isUp;
 	bool isDown;
 	public GameObject Player;
+	public bool grounded;
+	bool gameOver;
+	bool canDoublejump;
+	int jumps;
+
+	void Start()
+	{
+		gameOver = false;
+		jumps = 0;
+
+	}
 	void Update()
 	{
 		HandleMovement ();
@@ -26,9 +38,40 @@ public class CharacterController : MonoBehaviour {
 			MoveDown ();
 		}
 		if (isUp) {
-			MoveUp ();
+			Jump ();
+		}
+		grounded = Player.GetComponent<PlayerController>().getGrounded();
+		if (grounded) {
+			canDoublejump = false;
+			jumps = 0;
 		}
 	}
+
+	void Jump()
+	{
+
+		if (grounded && !gameOver) {
+			Player.GetComponent<Rigidbody2D> ().velocity = new Vector2 (Player.GetComponent<Rigidbody2D> ().velocity.x, 0);
+			Player.GetComponent<Rigidbody2D> ().AddForce (new Vector2 (0, jumpForce));
+			canDoublejump = true;
+			grounded = false;
+			Player.GetComponent<PlayerController> ().setGrounded (grounded);
+		} 
+
+	}
+
+	public void countJumps()
+	{
+		jumps++;
+		if (jumps > 1) {
+				Player.GetComponent<Rigidbody2D> ().velocity = new Vector2(Player.GetComponent<Rigidbody2D> ().velocity.x, 0);
+				Player.GetComponent<Rigidbody2D> ().AddForce (new Vector2 (0, jumpForce));
+				canDoublejump = false;
+			jumps = 0;
+		}
+	}
+
+
 	void MoveRight()
 	{
 		Player.transform.position += Vector3.right * speed * Time.deltaTime;
