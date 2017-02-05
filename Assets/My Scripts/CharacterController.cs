@@ -24,6 +24,28 @@ public class CharacterController : MonoBehaviour {
 	void Update()
 	{
 		HandleMovement ();
+		KeyBoardMovement ();
+	}
+
+	void KeyBoardMovement(){
+		if (Input.GetKeyDown (KeyCode.LeftArrow)) {
+			setLeft ();
+		}
+		if (Input.GetKeyDown (KeyCode.RightArrow)) {
+			setRight ();
+		}
+		if (Input.GetKeyDown (KeyCode.UpArrow)) {
+			Jump ();
+		}
+
+		if (Input.GetKeyUp (KeyCode.LeftArrow)) {
+			ResetMovement ();
+		}
+		if (Input.GetKeyUp (KeyCode.RightArrow)) {
+			ResetMovement ();
+		}
+
+
 	}
 
 	void HandleMovement()
