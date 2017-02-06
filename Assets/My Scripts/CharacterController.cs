@@ -11,6 +11,7 @@ public class CharacterController : MonoBehaviour {
 	bool isDown;
 	public GameObject Player;
 	public bool grounded;
+	public bool walled;
 	bool gameOver;
 	bool canDoublejump;
 	int jumps;
@@ -51,10 +52,10 @@ public class CharacterController : MonoBehaviour {
 	void HandleMovement()
 	{
 		if (isRight) {
-			MoveRight ();
+				MoveRight ();
 		}
 		if (isLeft) {
-			MoveLeft ();
+				MoveLeft ();
 		}
 		if (isDown) {
 			MoveDown ();
@@ -96,10 +97,12 @@ public class CharacterController : MonoBehaviour {
 
 	void MoveRight()
 	{
+		//transform.Translate(new Vector3(-50, 0, 0) * Time.deltaTime);
 		Player.transform.position += Vector3.right * speed * Time.deltaTime;
 	}
 	void MoveLeft()
 	{
+		//transform.Translate(new Vector3(-50, 0, 0) * Time.deltaTime);
 		Player.transform.position += Vector3.left * speed * Time.deltaTime;
 	}
 	void MoveUp()

@@ -4,6 +4,7 @@ using System.Collections;
 public class PlayerController : MonoBehaviour {
 
 	public bool grounded;
+	public bool walled;
 	public GameObject CharacterController;
 
 	void Start () {
@@ -24,6 +25,15 @@ public class PlayerController : MonoBehaviour {
 		grounded = gro;
 	}
 
+	public bool getWalled(){
+		return walled;
+	}
+
+	public void setWalled(bool wal)
+	{
+		walled = wal;
+	}
+
 
 	//Handle ground contact
 	void OnCollisionEnter2D(Collision2D coll)
@@ -33,6 +43,11 @@ public class PlayerController : MonoBehaviour {
 		{
 			grounded = true;
 		}
+		if (coll.gameObject.tag == "Wall") {
+			walled = true;
+		}else {
+			walled = false;
+		}
 	}
 
 	void OnTriggerEnter2D(Collider2D other)
@@ -41,6 +56,10 @@ public class PlayerController : MonoBehaviour {
 		{
 			grounded = true;
 		}
-
+		if (other.gameObject.tag == "Wall") {
+			walled = true;
+		} else {
+			walled = false;
+		}
 	}
 }
