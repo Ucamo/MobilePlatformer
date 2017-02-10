@@ -52,10 +52,10 @@ public class CharacterController : MonoBehaviour {
 	void HandleMovement()
 	{
 		if (isRight) {
-				MoveRight ();
+				MoveRight (1);
 		}
 		if (isLeft) {
-				MoveLeft ();
+				MoveLeft (-1);
 		}
 		if (isDown) {
 			MoveDown ();
@@ -95,15 +95,13 @@ public class CharacterController : MonoBehaviour {
 	}
 
 
-	void MoveRight()
+	void MoveRight(float push)
 	{
-		//transform.Translate(new Vector3(-50, 0, 0) * Time.deltaTime);
-		Player.transform.position += Vector3.right * speed * Time.deltaTime;
+		Player.GetComponent<Rigidbody2D> ().position += speed * Vector2.right * push * Time.deltaTime;
 	}
-	void MoveLeft()
+	void MoveLeft(float push)
 	{
-		//transform.Translate(new Vector3(-50, 0, 0) * Time.deltaTime);
-		Player.transform.position += Vector3.left * speed * Time.deltaTime;
+		Player.GetComponent<Rigidbody2D> ().position += speed * Vector2.right * push * Time.deltaTime;
 	}
 	void MoveUp()
 	{
