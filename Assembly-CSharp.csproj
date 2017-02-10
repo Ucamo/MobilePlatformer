@@ -46,7 +46,11 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\My Scripts\CharacterController.cs" />
+     <Compile Include="Assets\My Scripts\MoveObjects.cs" />
+     <Compile Include="Assets\My Scripts\ObjectDestroyer.cs" />
      <Compile Include="Assets\My Scripts\PlayerController.cs" />
+     <Compile Include="Assets\My Scripts\SinMovement.cs" />
+     <Compile Include="Assets\My Scripts\SpawnObjects.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
