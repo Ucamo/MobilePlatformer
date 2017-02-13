@@ -11,8 +11,10 @@ public class SpawnObjects : MonoBehaviour {
 	public float probabilidadMinima;
 	public float probabilidadMaxima;
 	public float wildCard;
-	void Start () {
 
+	int counter;
+	void Start () {
+		counter = 0;
 		InvokeRepeating ("SpawnObject", frecuenciaDeSpawneo, frecuenciaDeSpawneo);
 	}
 
@@ -20,17 +22,31 @@ public class SpawnObjects : MonoBehaviour {
 	void SpawnObject()
 	{
 		int randomNumber = (int)(Random.Range( probabilidadMinima, probabilidadMaxima ));
-		if (randomNumber != wildCard) {
-			Vector3 position;
-			if (coordenadaX ==-99) {
-				position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, coordenadaZ);
-			} else {
-				position = new Vector3(coordenadaX, coordenadaY, coordenadaZ);
+		if (wildCard != -9) {
+			if (randomNumber != wildCard) {
+				Vector3 position;
+				if (coordenadaX == -99) {
+					position = new Vector3 (gameObject.transform.position.x, gameObject.transform.position.y, coordenadaZ);
+				} else {
+					position = new Vector3 (coordenadaX, coordenadaY, coordenadaZ);
+				}
+
+				GameObject newGameObject = Instantiate (objetoASpawnear);
+				newGameObject.transform.position = position;
 			}
+		} else {
+			if (counter%2==0) {
+				Vector3 position;
+				if (coordenadaX ==-99) {
+					position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, coordenadaZ);
+				} else {
+					position = new Vector3(coordenadaX, coordenadaY, coordenadaZ);
+				}
 
-			GameObject newGameObject = Instantiate(objetoASpawnear);
-			newGameObject.transform.position = position;
+				GameObject newGameObject = Instantiate(objetoASpawnear);
+				newGameObject.transform.position = position;
+			}
 		}
-
+		counter++;
 	}
 }
