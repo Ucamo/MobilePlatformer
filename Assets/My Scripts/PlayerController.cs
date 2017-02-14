@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour {
 	public GameObject CharacterController;
 
 	void Start () {
-	
+		
 	}
 
 	void Update () {
@@ -43,6 +43,11 @@ public class PlayerController : MonoBehaviour {
 		{
 			grounded = true;
 		}
+		if (coll.gameObject.tag == "Coin")
+		{
+			CharacterController.GetComponent<CharacterController>().IncreaseCoin();
+			Destroy (coll.gameObject);
+		}
 		if (coll.gameObject.tag == "Wall") {
 			walled = true;
 		}else {
@@ -55,6 +60,11 @@ public class PlayerController : MonoBehaviour {
 		if (other.gameObject.tag == "Ground")
 		{
 			grounded = true;
+		}
+		if (other.gameObject.tag == "Coin")
+		{
+			CharacterController.GetComponent<CharacterController>().IncreaseCoin();
+			Destroy (other.gameObject);
 		}
 		if (other.gameObject.tag == "Wall") {
 			walled = true;

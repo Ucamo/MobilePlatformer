@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class CharacterController : MonoBehaviour {
 
 	public GameObject projectile;
+	public Text txtCoins; 
 	public float bulletSpeed;
 	public float speed=15f;
 	public float jumpForce=450;
@@ -18,16 +20,25 @@ public class CharacterController : MonoBehaviour {
 	bool canDoublejump;
 	int jumps;
 
+	int coins;
+
 	void Start()
 	{
 		gameOver = false;
 		jumps = 0;
+		coins = 0;
 
 	}
 	void Update()
 	{
 		HandleMovement ();
 		KeyBoardMovement ();
+		DrawUI ();
+	}
+
+	void DrawUI()
+	{
+		txtCoins.text = "Coins: " + coins;
 	}
 
 	void KeyBoardMovement(){
@@ -55,6 +66,16 @@ public class CharacterController : MonoBehaviour {
 		}
 
 
+	}
+
+	public void IncreaseCoin()
+	{
+		coins++;
+	}
+
+	public int getCoins()
+	{
+		return coins;
 	}
 
 	void HandleMovement()
