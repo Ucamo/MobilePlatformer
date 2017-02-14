@@ -3,6 +3,8 @@ using System.Collections;
 
 public class CharacterController : MonoBehaviour {
 
+	public GameObject projectile;
+	public float bulletSpeed;
 	public float speed=15f;
 	public float jumpForce=450;
 	bool isRight;
@@ -38,11 +40,17 @@ public class CharacterController : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.UpArrow)) {
 			Jump ();
 		}
+		if (Input.GetKeyDown (KeyCode.DownArrow)) {
+			setDown();
+		}
 
 		if (Input.GetKeyUp (KeyCode.LeftArrow)) {
 			ResetMovement ();
 		}
 		if (Input.GetKeyUp (KeyCode.RightArrow)) {
+			ResetMovement ();
+		}
+		if (Input.GetKeyUp (KeyCode.DownArrow)) {
 			ResetMovement ();
 		}
 
@@ -58,7 +66,7 @@ public class CharacterController : MonoBehaviour {
 				MoveLeft (-1);
 		}
 		if (isDown) {
-			MoveDown ();
+			Shoot ();
 		}
 		if (isUp) {
 			Jump ();
@@ -68,6 +76,15 @@ public class CharacterController : MonoBehaviour {
 			canDoublejump = false;
 			jumps = 0;
 		}
+	}
+
+	void Shoot()
+	{
+			Vector2 forceVector = Vector2.down;
+			Vector3 firePosition = new Vector3(transform.position.x, transform.position.y, 0);
+			GameObject bPrefab = Instantiate(projectile, firePosition, Quaternion.identity) as GameObject;
+			bPrefab.GetComponent<Rigidbody2D>().AddForce(forceVector * bulletSpeed);
+		isDown = false;
 	}
 
 	void Jump()
