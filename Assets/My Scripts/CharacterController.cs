@@ -6,6 +6,7 @@ public class CharacterController : MonoBehaviour {
 
 	public GameObject projectile;
 	public Text txtCoins; 
+	public Text txtScore;
 	public float bulletSpeed;
 	public float speed=15f;
 	public float jumpForce=450;
@@ -19,6 +20,8 @@ public class CharacterController : MonoBehaviour {
 	bool gameOver;
 	bool canDoublejump;
 	int jumps;
+
+	int score;
 
 	int coins;
 
@@ -41,6 +44,7 @@ public class CharacterController : MonoBehaviour {
 	void DrawUI()
 	{
 		txtCoins.text = "Coins: " + coins;
+		txtScore.text = "Score: " + score;
 	}
 
 	void KeyBoardMovement(){
@@ -78,6 +82,11 @@ public class CharacterController : MonoBehaviour {
 	public int getCoins()
 	{
 		return coins;
+	}
+
+	public void IncreaseScore(int value)
+	{
+		score += value;
 	}
 
 	void HandleMovement()

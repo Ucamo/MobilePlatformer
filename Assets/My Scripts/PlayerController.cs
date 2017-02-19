@@ -55,15 +55,6 @@ public class PlayerController : MonoBehaviour {
 			walled = false;
 		}
 	}
-
-	void OnCollisionExit2D(Collision2D coll) {
-		if (coll.gameObject.tag == "Wall")
-			walled = false;
-	}
-	void OnTriggerExit2D(Collider2D coll) {
-		if (coll.gameObject.tag == "Wall")
-			walled = false;
-	}
 		
 
 	void OnTriggerEnter2D(Collider2D other)
