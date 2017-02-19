@@ -22,6 +22,7 @@ public class CharacterController : MonoBehaviour {
 
 	int coins;
 
+
 	void Start()
 	{
 		gameOver = false;
@@ -103,7 +104,7 @@ public class CharacterController : MonoBehaviour {
 	void Shoot()
 	{
 			Vector2 forceVector = Vector2.down;
-			Vector3 firePosition = new Vector3(transform.position.x, transform.position.y, -1);
+			Vector3 firePosition = new Vector3(Player.transform.position.x, Player.transform.position.y, -1);
 			GameObject bPrefab = Instantiate(projectile, firePosition, Quaternion.identity) as GameObject;
 		bPrefab.layer = LayerMask.NameToLayer ("Projectile");
 			bPrefab.GetComponent<Rigidbody2D>().AddForce(forceVector * bulletSpeed);
@@ -178,4 +179,5 @@ public class CharacterController : MonoBehaviour {
 		isDown = false;
 		isUp = false;
 	}
+		
 }
