@@ -102,6 +102,7 @@ public class CharacterController : MonoBehaviour {
 		}
 		if (isUp) {
 			Jump ();
+			isUp = false;
 		}
 		grounded = Player.GetComponent<PlayerController>().getGrounded();
 		if (grounded) {
