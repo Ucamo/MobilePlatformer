@@ -55,6 +55,7 @@ public class EnemyController : MonoBehaviour {
 		if (other.gameObject.tag == "Projectile")
 		{
 			DecreaseHealth ();
+			Destroy (other.gameObject);
 		}
 	}
 
@@ -63,6 +64,7 @@ public class EnemyController : MonoBehaviour {
 		if (coll.gameObject.tag == "Projectile")
 		{
 			DecreaseHealth ();
+			Destroy (coll.gameObject);
 		}
 	}
 }
