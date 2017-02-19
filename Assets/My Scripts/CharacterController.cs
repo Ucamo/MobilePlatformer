@@ -103,8 +103,9 @@ public class CharacterController : MonoBehaviour {
 	void Shoot()
 	{
 			Vector2 forceVector = Vector2.down;
-			Vector3 firePosition = new Vector3(transform.position.x, transform.position.y, 0);
+			Vector3 firePosition = new Vector3(transform.position.x, transform.position.y, -1);
 			GameObject bPrefab = Instantiate(projectile, firePosition, Quaternion.identity) as GameObject;
+		bPrefab.layer = LayerMask.NameToLayer ("Projectile");
 			bPrefab.GetComponent<Rigidbody2D>().AddForce(forceVector * bulletSpeed);
 		isDown = false;
 	}
