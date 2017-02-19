@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour {
 		if (coll.gameObject.tag == "Ground")
 		{
 			grounded = true;
+			walled = false;
 		}
 		if (coll.gameObject.tag == "Coin")
 		{
@@ -55,11 +56,22 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
+	void OnCollisionExit2D(Collision2D coll) {
+		if (coll.gameObject.tag == "Wall")
+			walled = false;
+	}
+	void OnTriggerExit2D(Collider2D coll) {
+		if (coll.gameObject.tag == "Wall")
+			walled = false;
+	}
+		
+
 	void OnTriggerEnter2D(Collider2D other)
 	{
 		if (other.gameObject.tag == "Ground")
 		{
 			grounded = true;
+			walled = false;
 		}
 		if (other.gameObject.tag == "Coin")
 		{

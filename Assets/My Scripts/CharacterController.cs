@@ -34,6 +34,7 @@ public class CharacterController : MonoBehaviour {
 		HandleMovement ();
 		KeyBoardMovement ();
 		DrawUI ();
+		walled = Player.GetComponent<PlayerController> ().getWalled();
 	}
 
 	void DrawUI()
@@ -81,10 +82,10 @@ public class CharacterController : MonoBehaviour {
 	void HandleMovement()
 	{
 		if (isRight) {
-				MoveRight (1);
+			MoveRight (1);
 		}
 		if (isLeft) {
-				MoveLeft (-1);
+			MoveLeft (-1);
 		}
 		if (isDown) {
 			Shoot ();
@@ -135,11 +136,13 @@ public class CharacterController : MonoBehaviour {
 
 	void MoveRight(float push)
 	{
-		Player.GetComponent<Rigidbody2D> ().position += speed * Vector2.right * push * Time.deltaTime;
+		if(Player.transform.position.x<2.24)
+			Player.GetComponent<Rigidbody2D> ().position += speed * Vector2.right * push * Time.deltaTime;
 	}
 	void MoveLeft(float push)
 	{
-		Player.GetComponent<Rigidbody2D> ().position += speed * Vector2.right * push * Time.deltaTime;
+		if(Player.transform.position.x>-2.24)
+			Player.GetComponent<Rigidbody2D> ().position += speed * Vector2.right * push * Time.deltaTime;
 	}
 	void MoveUp()
 	{
