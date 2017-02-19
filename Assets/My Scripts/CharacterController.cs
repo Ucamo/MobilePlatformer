@@ -112,15 +112,15 @@ public class CharacterController : MonoBehaviour {
 
 	void Jump()
 	{
-
-		if (grounded && !gameOver) {
-			Player.GetComponent<Rigidbody2D> ().velocity = new Vector2 (Player.GetComponent<Rigidbody2D> ().velocity.x, 0);
-			Player.GetComponent<Rigidbody2D> ().AddForce (new Vector2 (0, jumpForce));
-			canDoublejump = true;
-			grounded = false;
-			Player.GetComponent<PlayerController> ().setGrounded (grounded);
-		} 
-
+		if (Player.transform.position.y <= 6.24) {
+			if (grounded && !gameOver) {
+				Player.GetComponent<Rigidbody2D> ().velocity = new Vector2 (Player.GetComponent<Rigidbody2D> ().velocity.x, 0);
+				Player.GetComponent<Rigidbody2D> ().AddForce (new Vector2 (0, jumpForce));
+				canDoublejump = true;
+				grounded = false;
+				Player.GetComponent<PlayerController> ().setGrounded (grounded);
+			} 
+		}
 	}
 
 	public void countJumps()
