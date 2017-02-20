@@ -5,6 +5,8 @@ public class MoveObjects : MonoBehaviour {
 
 	public GameObject prefab;
 	public float speed;
+	float publicSpeed;
+	int modificador;
 	// Use this for initialization
 	void Start () {
 
@@ -12,12 +14,31 @@ public class MoveObjects : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		GetSpeed ();
 		Move ();
+	}
+
+	void GetSpeed()
+	{
+		modificador = 1;
+		if (speed > 0)
+			modificador = -1;
+		else
+			modificador = 1;
+		GameObject[] gc = GameObject.FindGameObjectsWithTag("GameController");
+		if (gc != null) {
+			publicSpeed = gc [0].GetComponent<CharacterController> ().getPublicSpeed();
+		}
 	}
 
 
 	void Move()
 	{
-		prefab.transform.Translate(new Vector3(0, -speed, 0) * Time.deltaTime);
+		if (speed < 0) {
+			prefab.transform.Translate(new Vector3(0, modificador*(publicSpeed-speed), 0) * Time.deltaTime);
+		} else {
+			prefab.transform.Translate(new Vector3(0, modificador*(publicSpeed+speed), 0) * Time.deltaTime);
+		}
+
 	}
 }

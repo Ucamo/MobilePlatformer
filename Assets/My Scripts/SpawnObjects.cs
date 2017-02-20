@@ -11,11 +11,39 @@ public class SpawnObjects : MonoBehaviour {
 	public float probabilidadMinima;
 	public float probabilidadMaxima;
 	public float wildCard;
-
+	float currentSpeed;
 	int counter;
 	void Start () {
 		counter = 0;
 		InvokeRepeating ("SpawnObject", frecuenciaDeSpawneo, frecuenciaDeSpawneo);
+		currentSpeed = 0f;
+	}
+
+	void Update(){
+		CheckForChangesOnSpeed ();
+	}
+
+	IEnumerator Spawn(bool cambio,float publicSpeed) {
+		if (!cambio) {
+			yield return new WaitForSeconds(Random.Range(frecuenciaDeSpawneo, frecuenciaDeSpawneo));
+		} else {
+			yield return new WaitForSeconds(Random.Range(frecuenciaDeSpawneo-publicSpeed/2, frecuenciaDeSpawneo-publicSpeed/2));
+		}
+		SpawnObject ();
+	}
+
+	void CheckForChangesOnSpeed()
+	{
+		GameObject[] gc = GameObject.FindGameObjectsWithTag("GameController");
+		if (gc != null) {
+			float publicSpeed = gc [0].GetComponent<CharacterController> ().getPublicSpeed();
+			if (publicSpeed != currentSpeed) {
+				CancelInvoke ();
+				InvokeRepeating ("SpawnObject", frecuenciaDeSpawneo - publicSpeed / 2, frecuenciaDeSpawneo - publicSpeed / 2);
+				SpawnObject ();
+				currentSpeed = publicSpeed;
+			}
+		}
 	}
 
 

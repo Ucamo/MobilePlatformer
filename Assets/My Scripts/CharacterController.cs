@@ -17,6 +17,7 @@ public class CharacterController : MonoBehaviour {
 	public GameObject Player;
 	public bool grounded;
 	public bool walled;
+	public float publicSpeed;
 	bool gameOver;
 	bool canDoublejump;
 	int jumps;
@@ -39,6 +40,21 @@ public class CharacterController : MonoBehaviour {
 		KeyBoardMovement ();
 		DrawUI ();
 		walled = Player.GetComponent<PlayerController> ().getWalled();
+	}
+
+	public float getPublicSpeed()
+	{
+		return publicSpeed;
+	}
+
+	public void increasePublicSpeed(float val)
+	{
+		publicSpeed += val;
+	}
+
+	public void decreasePublicSpeed(float val)
+	{
+		publicSpeed -= val;
 	}
 
 	void DrawUI()
