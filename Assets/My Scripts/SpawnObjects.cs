@@ -37,12 +37,17 @@ public class SpawnObjects : MonoBehaviour {
 		GameObject[] gc = GameObject.FindGameObjectsWithTag("GameController");
 		if (gc != null) {
 			float publicSpeed = gc [0].GetComponent<CharacterController> ().getPublicSpeed();
-			if (publicSpeed != currentSpeed) {
+			if (publicSpeed == -2) {
 				CancelInvoke ();
-				InvokeRepeating ("SpawnObject", frecuenciaDeSpawneo - publicSpeed / 2, frecuenciaDeSpawneo - publicSpeed / 2);
-				SpawnObject ();
-				currentSpeed = publicSpeed;
+			} else {
+				if (publicSpeed != currentSpeed) {
+					CancelInvoke ();
+					InvokeRepeating ("SpawnObject", frecuenciaDeSpawneo - publicSpeed / 2, frecuenciaDeSpawneo - publicSpeed / 2);
+					SpawnObject ();
+					currentSpeed = publicSpeed;
+				}
 			}
+
 		}
 	}
 
