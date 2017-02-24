@@ -155,6 +155,17 @@ public class CharacterController : MonoBehaviour {
 		Vector2 forceVector = Vector2.down;
 		Vector3 firePosition = new Vector3(Player.transform.position.x, Player.transform.position.y, -1);
 		GameObject bPrefab = Instantiate(projectile, firePosition, Quaternion.identity) as GameObject;
+		if (currentMana > 0) {
+			GameObject secondBullet = Instantiate(projectile, new Vector3(firePosition.x+0.7f,firePosition.y,firePosition.z), Quaternion.identity) as GameObject;
+			secondBullet.layer = LayerMask.NameToLayer ("Projectile");
+			Vector3 newForce  = Vector2.left;
+			secondBullet.GetComponent<Rigidbody2D>().AddForce(newForce* bulletSpeed);
+			GameObject thirdBullet = Instantiate(projectile, new Vector3(firePosition.x-0.7f,firePosition.y,firePosition.z), Quaternion.identity) as GameObject;
+			thirdBullet.layer = LayerMask.NameToLayer ("Projectile");
+			Vector2 newForce2 = Vector2.right;
+			thirdBullet.GetComponent<Rigidbody2D>().AddForce(newForce2* bulletSpeed);
+			DecreaseMana (1);
+		}
 		bPrefab.layer = LayerMask.NameToLayer ("Projectile");
 		bPrefab.GetComponent<Rigidbody2D>().AddForce(forceVector * bulletSpeed);
 		isDown = false;
