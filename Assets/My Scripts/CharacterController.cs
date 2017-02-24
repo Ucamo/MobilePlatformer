@@ -7,6 +7,9 @@ public class CharacterController : MonoBehaviour {
 	public GameObject projectile;
 	public Text txtCoins; 
 	public Text txtScore;
+	public Text txtMana;
+	public int currentMana;
+	public int maxMana;
 	public float bulletSpeed;
 	public float speed=15f;
 	public float jumpForce=450;
@@ -15,6 +18,7 @@ public class CharacterController : MonoBehaviour {
 	bool isUp;
 	bool isDown;
 	public GameObject Player;
+	public GameObject manaPotion;
 	public bool grounded;
 	public bool walled;
 	public float publicSpeed;
@@ -61,6 +65,7 @@ public class CharacterController : MonoBehaviour {
 	{
 		txtCoins.text = "Coins: " + coins;
 		txtScore.text = "Score: " + score;
+		txtMana.text = "Mana: " + currentMana + "/" + maxMana;
 	}
 
 	void KeyBoardMovement(){
@@ -88,6 +93,24 @@ public class CharacterController : MonoBehaviour {
 		}
 
 
+	}
+
+	public void IncreaseMana(int val)
+	{
+		if (currentMana + val <= maxMana) {
+			currentMana += val;
+		} else {
+			currentMana = maxMana;
+		}
+	}
+
+	public void DecreaseMana(int val)
+	{
+		if (currentMana - val >= 0) {
+			currentMana -= val;
+		} else {
+			currentMana = 0;
+		}
 	}
 
 	public void IncreaseCoin()
@@ -129,12 +152,22 @@ public class CharacterController : MonoBehaviour {
 
 	void Shoot()
 	{
-			Vector2 forceVector = Vector2.down;
-			Vector3 firePosition = new Vector3(Player.transform.position.x, Player.transform.position.y, -1);
-			GameObject bPrefab = Instantiate(projectile, firePosition, Quaternion.identity) as GameObject;
+		Vector2 forceVector = Vector2.down;
+		Vector3 firePosition = new Vector3(Player.transform.position.x, Player.transform.position.y, -1);
+		GameObject bPrefab = Instantiate(projectile, firePosition, Quaternion.identity) as GameObject;
 		bPrefab.layer = LayerMask.NameToLayer ("Projectile");
-			bPrefab.GetComponent<Rigidbody2D>().AddForce(forceVector * bulletSpeed);
+		bPrefab.GetComponent<Rigidbody2D>().AddForce(forceVector * bulletSpeed);
 		isDown = false;
+	}
+
+	public void ProtectedDropItem()
+	{
+		GameObject[] objectProtected = GameObject.FindGameObjectsWithTag("Protected");
+		if (objectProtected != null) {
+			GameObject objProtected = objectProtected [0];
+			Vector3 firePosition = new Vector3(objProtected.transform.position.x, objProtected.transform.position.y, 0);
+			GameObject bPrefab = Instantiate(manaPotion, firePosition, Quaternion.identity) as GameObject;
+		}
 	}
 
 	void Jump()

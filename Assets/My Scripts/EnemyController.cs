@@ -44,6 +44,7 @@ public class EnemyController : MonoBehaviour {
 			GameObject[] gc = GameObject.FindGameObjectsWithTag("GameController");
 			if (gc != null) {
 				gc [0].GetComponent<CharacterController> ().IncreaseScore (experience);
+				gc [0].GetComponent<CharacterController> ().ProtectedDropItem ();
 				Destroy (gameObject);
 			}
 	
