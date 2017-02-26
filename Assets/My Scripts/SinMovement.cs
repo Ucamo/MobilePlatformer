@@ -4,6 +4,8 @@ using System.Collections;
 public class SinMovement : MonoBehaviour {
 
 	private Vector3 _startPosition;
+	public bool isTarget;
+
 	// Use this for initialization
 	void Start () {
 		_startPosition = transform.position;
@@ -11,6 +13,17 @@ public class SinMovement : MonoBehaviour {
 
 	void Update()
 	{
-		transform.position = _startPosition + new Vector3(Mathf.Sin(Time.time)*2, 0.0f, 0.0f);
+		if (!isTarget) {
+			transform.position = _startPosition + new Vector3 (Mathf.Sin (Time.time) * 2, 0.0f, 0.0f);
+		} else {
+			GameObject[] gc = GameObject.FindGameObjectsWithTag("GameController");
+			if (gc != null) {
+				bool win = gc [0].GetComponent<CharacterController> ().getWin ();
+				if (!win) {
+					transform.position = _startPosition + new Vector3 (Mathf.Sin (Time.time) * 2, 0.0f, 0.0f);
+				}
+			}
+		}
+
 	}
 }

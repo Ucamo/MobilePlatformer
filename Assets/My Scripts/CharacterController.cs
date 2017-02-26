@@ -30,8 +30,14 @@ public class CharacterController : MonoBehaviour {
 	int coins;
 
 	public Canvas CanvasGameOver;
+	public Canvas CanvasWin;
 	public int lives;
+	public int levelScoreGoal;
+	public string nextSceneName;
 
+	bool win;
+	bool goingToNextLevel;
+	bool readyNextLevel;
 
 	void Start()
 	{
@@ -43,12 +49,27 @@ public class CharacterController : MonoBehaviour {
 	void Update()
 	{
 		if (Player != null) {
-			HandleMovement ();
-			KeyBoardMovement ();
+			if (!goingToNextLevel) {
+				HandleMovement ();
+				KeyBoardMovement ();
+			}
 			walled = Player.GetComponent<PlayerController> ().getWalled();
+			CheckEvents ();
 		}
 		DrawUI ();
+	}
 
+	public void CheckEvents()
+	{
+		if (win) {
+			PlayLevelWarp ();
+		}
+		if (goingToNextLevel) {
+			PlayGoingToNextLevel ();
+		}
+		if (readyNextLevel) {
+			ShowCanvasWin ();
+		}
 	}
 
 	public float getPublicSpeed()
@@ -132,6 +153,12 @@ public class CharacterController : MonoBehaviour {
 	public void IncreaseScore(int value)
 	{
 		score += value;
+		CheckScore ();
+	}
+
+	public int getScore()
+	{
+		return score;
 	}
 
 	void HandleMovement()
@@ -261,6 +288,11 @@ public class CharacterController : MonoBehaviour {
 		CanvasGameOver.gameObject.SetActive (true);
 	}
 
+	public void ShowCanvasWin()
+	{
+		CanvasWin.gameObject.SetActive (true);
+	}
+
 	public void ReloadScene()
 	{
 		Application.LoadLevel(Application.loadedLevel);
@@ -298,6 +330,62 @@ public class CharacterController : MonoBehaviour {
 		bPrefab.GetComponent<PlayerController> ().enabled = true; 
 		bPrefab.GetComponent<BoxCollider2D> ().enabled = true; 
 		Player = bPrefab;
+	}
+
+	public void CheckScore()
+	{
+		if (score >= levelScoreGoal) {
+			decreasePublicSpeed (2);
+			win = true;
+		}
+	}
+
+	public void PlayLevelWarp()
+	{
+		GameObject[] objectProtected = GameObject.FindGameObjectsWithTag("Protected");
+		if (objectProtected != null) {
+			GameObject objProtected = objectProtected[0].gameObject;
+			objProtected.transform.position = 
+				Vector2.MoveTowards(objProtected.transform.position, 
+					Player.transform.position, 3* Time.deltaTime);
+
+			if (objProtected.transform.position.y == Player.transform.position.y) {
+				if (objProtected.transform.position.x == Player.transform.position.x) {
+					goingToNextLevel = true;
+					Destroy (Player.GetComponent<Rigidbody2D> ());
+				}
+			}
+		}
+	}
+
+	public void PlayGoingToNextLevel()
+	{
+		GameObject[] objectProtected = GameObject.FindGameObjectsWithTag("Protected");
+		if (objectProtected != null) {
+			Vector3 nextLevelPosition = new Vector3(0, 9, 0);
+
+			GameObject objProtected = objectProtected[0].gameObject;
+			objProtected.transform.position = 
+				Vector2.MoveTowards(objProtected.transform.position, 
+					nextLevelPosition, 5* Time.deltaTime);
+			Player.transform.position = 
+				Vector2.MoveTowards(Player.transform.position, 
+					nextLevelPosition, 5* Time.deltaTime);
+
+			if (objProtected.transform.position == nextLevelPosition) {
+				readyNextLevel = true;
+			}
+		}
+	}
+
+	public void GotoNextLevel()
+	{
+		Application.LoadLevel(nextSceneName);
+	}
+
+	public bool getWin()
+	{
+		return win;
 	}
 		
 }
