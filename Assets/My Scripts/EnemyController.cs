@@ -38,7 +38,7 @@ public class EnemyController : MonoBehaviour {
 		}
 	}
 
-	void DecreaseHealth(){
+	public void DecreaseHealth(){
 		totalHealth--;
 		if (totalHealth <= 0) {
 			GameObject[] gc = GameObject.FindGameObjectsWithTag("GameController");
@@ -54,6 +54,11 @@ public class EnemyController : MonoBehaviour {
 			}
 	
 		}
+	}
+
+	public int GetHealth()
+	{
+		return totalHealth;
 	}
 
 	void OnTriggerEnter2D(Collider2D other)

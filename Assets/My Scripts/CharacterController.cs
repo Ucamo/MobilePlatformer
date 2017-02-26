@@ -229,6 +229,19 @@ public class CharacterController : MonoBehaviour {
 		}
 	}
 
+	public void DestroyAllEnemies()
+	{
+		GameObject[] enemyArray = GameObject.FindGameObjectsWithTag("Enemy");
+		if (enemyArray != null) {
+			foreach (GameObject objEnemy in enemyArray) {
+				int enemyHealth = objEnemy.GetComponent<EnemyController> ().GetHealth ();
+				for (int x = 0; x <= enemyHealth; x++) {
+					objEnemy.GetComponent<EnemyController> ().DecreaseHealth ();
+				}
+			}
+		}
+	}
+
 	void Jump()
 	{
 		if (Player.transform.position.y <= 6.24) {
