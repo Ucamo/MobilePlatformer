@@ -8,6 +8,7 @@ public class CharacterController : MonoBehaviour {
 	public Text txtCoins; 
 	public Text txtScore;
 	public Text txtMana;
+	public Text txtLives;
 	public int currentMana;
 	public int maxMana;
 	public float bulletSpeed;
@@ -25,10 +26,11 @@ public class CharacterController : MonoBehaviour {
 	bool gameOver;
 	bool canDoublejump;
 	int jumps;
-
 	int score;
-
 	int coins;
+
+	public Canvas CanvasGameOver;
+	public int lives;
 
 
 	void Start()
@@ -40,10 +42,13 @@ public class CharacterController : MonoBehaviour {
 	}
 	void Update()
 	{
-		HandleMovement ();
-		KeyBoardMovement ();
+		if (Player != null) {
+			HandleMovement ();
+			KeyBoardMovement ();
+			walled = Player.GetComponent<PlayerController> ().getWalled();
+		}
 		DrawUI ();
-		walled = Player.GetComponent<PlayerController> ().getWalled();
+
 	}
 
 	public float getPublicSpeed()
@@ -66,6 +71,7 @@ public class CharacterController : MonoBehaviour {
 		txtCoins.text = "Coins: " + coins;
 		txtScore.text = "Score: " + score;
 		txtMana.text = "Mana: " + currentMana + "/" + maxMana;
+		txtLives.text = "Lives: " + getLives ();
 	}
 
 	void KeyBoardMovement(){
@@ -248,6 +254,50 @@ public class CharacterController : MonoBehaviour {
 		isLeft = false;
 		isDown = false;
 		isUp = false;
+	}
+
+	public void ShowCanvasGameOver()
+	{
+		CanvasGameOver.gameObject.SetActive (true);
+	}
+
+	public void ReloadScene()
+	{
+		Application.LoadLevel(Application.loadedLevel);
+	}
+
+	public void IncreaseLives()
+	{
+		lives++;
+	}
+
+	public void decreaseLives(){
+		lives--;
+		checkPlayerDeath ();
+	}
+
+	public int getLives(){
+		return lives;
+	}
+
+	public void checkPlayerDeath()
+	{
+		if (lives <= 0) {
+			ShowCanvasGameOver ();
+		} else {
+			//Spawn character
+			RespawnPlayer();
+		}
+	}
+
+	public void RespawnPlayer()
+	{
+		Vector3 spawnPosition = new Vector3(0, 7, 0);
+		GameObject bPrefab = Instantiate(Player, spawnPosition, Quaternion.identity) as GameObject;
+		bPrefab.SetActive (true);
+		bPrefab.GetComponent<PlayerController> ().enabled = true; 
+		bPrefab.GetComponent<BoxCollider2D> ().enabled = true; 
+		Player = bPrefab;
 	}
 		
 }

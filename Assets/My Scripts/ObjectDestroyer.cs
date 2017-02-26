@@ -28,28 +28,31 @@ public class ObjectDestroyer : MonoBehaviour {
 	}
 	public void OnCollisionEnter2D(Collision2D obj) {
 		Destroy (obj.gameObject);
-		if (obj.gameObject.name == "Player") {
-			//MostrarGameOver ();
+		if (obj.gameObject.name.Contains("Player")) {
+			DecreaseLives ();
 		}
 	}
 
 	public void OnTriggerEnter2D(Collider2D node) {
 		Destroy(node.gameObject);
-		if (node.gameObject.name == "Player") {
-			//MostrarGameOver ();
+		if (node.gameObject.name.Contains("Player")) {
+			DecreaseLives ();
 		}
 	}
 
-	/*
-	public void MostrarGameOver()
+
+	public void DecreaseLives()
 	{
-		canvas.SetActive (true);
-		PlayGameOverSound ();
+		GameObject[] gc = GameObject.FindGameObjectsWithTag("GameController");
+		if (gc != null) {
+			gc [0].GetComponent<CharacterController> ().decreaseLives ();
+
+		}
 	}
 
 	void StopTime()
 	{
 		Time.timeScale = 0.00001f;
 	}
-	*/
+
 }
