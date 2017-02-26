@@ -59,10 +59,9 @@ public class PlayerController : MonoBehaviour {
 			CharacterController.GetComponent<CharacterController>().IncreaseLives();
 			Destroy (coll.gameObject);
 		}
-		if (coll.gameObject.tag == "Bomb")
+		if (coll.gameObject.tag == "Item")
 		{
-			CharacterController.GetComponent<CharacterController>().DestroyAllEnemies();
-			Destroy (coll.gameObject);
+			CharacterController.GetComponent<CharacterController>().AddItemToInventory(coll.gameObject);
 		}
 		if (coll.gameObject.tag == "Wall") {
 			walled = true;
@@ -94,10 +93,9 @@ public class PlayerController : MonoBehaviour {
 			CharacterController.GetComponent<CharacterController>().IncreaseLives();
 			Destroy (other.gameObject);
 		}
-		if (other.gameObject.tag == "Bomb")
+		if (other.gameObject.tag == "Item")
 		{
-			CharacterController.GetComponent<CharacterController>().DestroyAllEnemies();
-			Destroy (other.gameObject);
+			CharacterController.GetComponent<CharacterController>().AddItemToInventory(other.gameObject);
 		}
 		if (other.gameObject.tag == "Wall") {
 			walled = true;

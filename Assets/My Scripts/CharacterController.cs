@@ -9,6 +9,7 @@ public class CharacterController : MonoBehaviour {
 	public Text txtScore;
 	public Text txtMana;
 	public Text txtLives;
+	public Button btnItem;
 	public int currentMana;
 	public int maxMana;
 	public float bulletSpeed;
@@ -240,7 +241,38 @@ public class CharacterController : MonoBehaviour {
 				}
 			}
 		}
+		//Reset item slot
+		ResetItemSlot();
+
 	}
+
+	void ResetItemSlot()
+	{
+		ActiveItemSlot (false);
+		btnItem.GetComponent<Button> ().onClick.RemoveAllListeners ();
+	}
+
+	void ActiveItemSlot(bool value)
+	{
+		btnItem.GetComponent<Image> ().enabled = value;
+		btnItem.GetComponent<Button> ().enabled = value;
+		btnItem.enabled = value;
+		btnItem.interactable = value;
+	}
+
+	public void AddItemToInventory(GameObject item)
+	{
+		ResetItemSlot ();
+		ActiveItemSlot (true);
+		Sprite itemSprite = item.GetComponent<SpriteRenderer> ().sprite;
+		btnItem.GetComponent<Image>().sprite = itemSprite;
+		if (item.name.Contains("Bomb")) {
+			btnItem.GetComponent<Button>().onClick.AddListener(() => DestroyAllEnemies());
+		}
+
+		Destroy (item);
+	}
+		
 
 	void Jump()
 	{
