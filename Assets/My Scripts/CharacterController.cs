@@ -127,9 +127,22 @@ public class CharacterController : MonoBehaviour {
 	public void IncreaseMana(int val)
 	{
 		if (currentMana + val <= maxMana) {
+			CallMana (val.ToString());
 			currentMana += val;
 		} else {
+			CallMana ("MAX");
 			currentMana = maxMana;
+		}
+	}
+
+	void CallMana(string value)
+	{
+		if (Player != null) {
+			Vector3 firePosition = new Vector3(Player.gameObject.transform.position.x, Player.gameObject.transform.position.y, 0);
+			GameObject damage = (GameObject)Resources.Load ("Damage");
+			GameObject bPrefab = Instantiate(damage, firePosition, Quaternion.identity) as GameObject;
+			Color blue = new Color (0,0,1);
+			bPrefab.GetComponent<DamageController> ().CreateBonusColor (value,blue);
 		}
 	}
 
@@ -235,9 +248,11 @@ public class CharacterController : MonoBehaviour {
 		GameObject[] enemyArray = GameObject.FindGameObjectsWithTag("Enemy");
 		if (enemyArray != null) {
 			foreach (GameObject objEnemy in enemyArray) {
-				int enemyHealth = objEnemy.GetComponent<EnemyController> ().GetHealth ();
-				for (int x = 0; x <= enemyHealth; x++) {
-					objEnemy.GetComponent<EnemyController> ().DecreaseHealth ();
+				if (objEnemy.transform.position.y >= -3.5) {
+					int enemyHealth = objEnemy.GetComponent<EnemyController> ().GetHealth ();
+					for (int x = 0; x <= enemyHealth; x++) {
+						objEnemy.GetComponent<EnemyController> ().DecreaseHealth ();
+					}
 				}
 			}
 		}
@@ -265,7 +280,9 @@ public class CharacterController : MonoBehaviour {
 		ResetItemSlot ();
 		ActiveItemSlot (true);
 		Sprite itemSprite = item.GetComponent<SpriteRenderer> ().sprite;
+		Color itemColor = item.GetComponent<SpriteRenderer> ().color;
 		btnItem.GetComponent<Image>().sprite = itemSprite;
+		btnItem.GetComponent<Image> ().color = itemColor;
 		if (item.name.Contains("Bomb")) {
 			btnItem.GetComponent<Button>().onClick.AddListener(() => DestroyAllEnemies());
 		}

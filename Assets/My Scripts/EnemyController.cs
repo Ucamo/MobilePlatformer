@@ -40,12 +40,13 @@ public class EnemyController : MonoBehaviour {
 
 	public void DecreaseHealth(){
 		totalHealth--;
+		CallDamage (1);
 		if (totalHealth <= 0) {
 			GameObject[] gc = GameObject.FindGameObjectsWithTag("GameController");
 			if (gc != null) {
 				gc [0].GetComponent<CharacterController> ().IncreaseScore (experience);
-				int index = Random.Range (0, 51);
-				if (index == 25) {
+				int index = Random.Range (0, 30);
+				if (index == 15) {
 					gc [0].GetComponent<CharacterController> ().ProtectedDropRareItem ();
 				} else {
 					gc [0].GetComponent<CharacterController> ().ProtectedDropItem ();
@@ -54,6 +55,14 @@ public class EnemyController : MonoBehaviour {
 			}
 	
 		}
+	}
+
+	void CallDamage(int value)
+	{
+		Vector3 firePosition = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, 0);
+		GameObject damage = (GameObject)Resources.Load ("Damage");
+		GameObject bPrefab = Instantiate(damage, firePosition, Quaternion.identity) as GameObject;
+		bPrefab.GetComponent<DamageController> ().CreateDamage (value);
 	}
 
 	public int GetHealth()
