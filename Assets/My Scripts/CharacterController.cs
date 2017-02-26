@@ -19,7 +19,8 @@ public class CharacterController : MonoBehaviour {
 	bool isUp;
 	bool isDown;
 	public GameObject Player;
-	public GameObject manaPotion;
+	public GameObject[] normalItems;
+	public GameObject[] rareItems;
 	public bool grounded;
 	public bool walled;
 	public float publicSpeed;
@@ -210,7 +211,21 @@ public class CharacterController : MonoBehaviour {
 		if (objectProtected != null) {
 			GameObject objProtected = objectProtected [0];
 			Vector3 firePosition = new Vector3(objProtected.transform.position.x, objProtected.transform.position.y, 0);
-			GameObject bPrefab = Instantiate(manaPotion, firePosition, Quaternion.identity) as GameObject;
+			int index = Random.Range (0, normalItems.Length);
+			GameObject randomItem = normalItems [index];
+			GameObject bPrefab = Instantiate(randomItem, firePosition, Quaternion.identity) as GameObject;
+		}
+	}
+
+	public void ProtectedDropRareItem()
+	{
+		GameObject[] objectProtected = GameObject.FindGameObjectsWithTag("Protected");
+		if (objectProtected != null) {
+			GameObject objProtected = objectProtected [0];
+			Vector3 firePosition = new Vector3(objProtected.transform.position.x, objProtected.transform.position.y, 0);
+			int index = Random.Range (0, rareItems.Length);
+			GameObject randomItem = rareItems [index];
+			GameObject bPrefab = Instantiate(randomItem, firePosition, Quaternion.identity) as GameObject;
 		}
 	}
 

@@ -54,6 +54,11 @@ public class PlayerController : MonoBehaviour {
 			CharacterController.GetComponent<CharacterController>().IncreaseMana(3);
 			Destroy (coll.gameObject);
 		}
+		if (coll.gameObject.tag == "1Up")
+		{
+			CharacterController.GetComponent<CharacterController>().IncreaseLives();
+			Destroy (coll.gameObject);
+		}
 		if (coll.gameObject.tag == "Wall") {
 			walled = true;
 		}else {
@@ -77,6 +82,11 @@ public class PlayerController : MonoBehaviour {
 		if (other.gameObject.tag == "ManaPotion")
 		{
 			CharacterController.GetComponent<CharacterController>().IncreaseMana(3);
+			Destroy (other.gameObject);
+		}
+		if (other.gameObject.tag == "1Up")
+		{
+			CharacterController.GetComponent<CharacterController>().IncreaseLives();
 			Destroy (other.gameObject);
 		}
 		if (other.gameObject.tag == "Wall") {
