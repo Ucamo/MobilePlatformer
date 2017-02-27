@@ -12,6 +12,7 @@ public class CharacterController : MonoBehaviour {
 	public Button btnItem;
 	public int currentMana;
 	public int maxMana;
+	public int healthOfProtected;
 	public float bulletSpeed;
 	public float speed=15f;
 	public float jumpForce=450;
@@ -30,6 +31,9 @@ public class CharacterController : MonoBehaviour {
 	int jumps;
 	int score;
 	int coins;
+
+	bool lose;
+
 
 	public Canvas CanvasGameOver;
 	public Canvas CanvasWin;
@@ -127,7 +131,7 @@ public class CharacterController : MonoBehaviour {
 	public void IncreaseMana(int val)
 	{
 		if (currentMana + val <= maxMana) {
-			CallMana (val.ToString());
+			CallMana ("+"+val.ToString());
 			currentMana += val;
 		} else {
 			CallMana ("MAX");
@@ -143,6 +147,22 @@ public class CharacterController : MonoBehaviour {
 			GameObject bPrefab = Instantiate(damage, firePosition, Quaternion.identity) as GameObject;
 			Color blue = new Color (0,0,1);
 			bPrefab.GetComponent<DamageController> ().CreateBonusColor (value,blue);
+		}
+	}
+
+	void CallDamageProtected(string value)
+	{
+		if (Player != null) {
+			GameObject[] objectProtected = GameObject.FindGameObjectsWithTag("Protected");
+			if (objectProtected != null) {
+				GameObject objProtected = objectProtected [0];
+				Vector3 firePosition = new Vector3(objProtected.gameObject.transform.position.x, objProtected.gameObject.transform.position.y, 0);
+				GameObject damage = (GameObject)Resources.Load ("Damage");
+				GameObject bPrefab = Instantiate(damage, firePosition, Quaternion.identity) as GameObject;
+				Color red = new Color (1,0,0);
+				bPrefab.GetComponent<DamageController> ().CreateBonusColor (value,red);
+			}
+
 		}
 	}
 
@@ -185,7 +205,8 @@ public class CharacterController : MonoBehaviour {
 			MoveLeft (-1);
 		}
 		if (isDown) {
-			Shoot ();
+			if(!lose)
+				Shoot ();
 		}
 		if (isUp) {
 			Jump ();
@@ -200,23 +221,25 @@ public class CharacterController : MonoBehaviour {
 
 	void Shoot()
 	{
-		Vector2 forceVector = Vector2.down;
-		Vector3 firePosition = new Vector3(Player.transform.position.x, Player.transform.position.y, -1);
-		GameObject bPrefab = Instantiate(projectile, firePosition, Quaternion.identity) as GameObject;
-		if (currentMana > 0) {
-			GameObject secondBullet = Instantiate(projectile, new Vector3(firePosition.x+0.7f,firePosition.y,firePosition.z), Quaternion.identity) as GameObject;
-			secondBullet.layer = LayerMask.NameToLayer ("Projectile");
-			Vector3 newForce  = Vector2.left;
-			secondBullet.GetComponent<Rigidbody2D>().AddForce(newForce* bulletSpeed);
-			GameObject thirdBullet = Instantiate(projectile, new Vector3(firePosition.x-0.7f,firePosition.y,firePosition.z), Quaternion.identity) as GameObject;
-			thirdBullet.layer = LayerMask.NameToLayer ("Projectile");
-			Vector2 newForce2 = Vector2.right;
-			thirdBullet.GetComponent<Rigidbody2D>().AddForce(newForce2* bulletSpeed);
-			DecreaseMana (1);
+		if (Player.GetComponent<Rigidbody2D> () != null) {
+			Vector2 forceVector = Vector2.down;
+			Vector3 firePosition = new Vector3(Player.transform.position.x, Player.transform.position.y, -1);
+			GameObject bPrefab = Instantiate(projectile, firePosition, Quaternion.identity) as GameObject;
+			if (currentMana > 0) {
+				GameObject secondBullet = Instantiate(projectile, new Vector3(firePosition.x+0.7f,firePosition.y,firePosition.z), Quaternion.identity) as GameObject;
+				secondBullet.layer = LayerMask.NameToLayer ("Projectile");
+				Vector3 newForce  = Vector2.left;
+				secondBullet.GetComponent<Rigidbody2D>().AddForce(newForce* bulletSpeed);
+				GameObject thirdBullet = Instantiate(projectile, new Vector3(firePosition.x-0.7f,firePosition.y,firePosition.z), Quaternion.identity) as GameObject;
+				thirdBullet.layer = LayerMask.NameToLayer ("Projectile");
+				Vector2 newForce2 = Vector2.right;
+				thirdBullet.GetComponent<Rigidbody2D>().AddForce(newForce2* bulletSpeed);
+				DecreaseMana (1);
+			}
+			bPrefab.layer = LayerMask.NameToLayer ("Projectile");
+			bPrefab.GetComponent<Rigidbody2D>().AddForce(forceVector * bulletSpeed);
+			isDown = false;
 		}
-		bPrefab.layer = LayerMask.NameToLayer ("Projectile");
-		bPrefab.GetComponent<Rigidbody2D>().AddForce(forceVector * bulletSpeed);
-		isDown = false;
 	}
 
 	public void ProtectedDropItem()
@@ -241,6 +264,24 @@ public class CharacterController : MonoBehaviour {
 			GameObject randomItem = rareItems [index];
 			GameObject bPrefab = Instantiate(randomItem, firePosition, Quaternion.identity) as GameObject;
 		}
+	}
+
+	public void DecreaseHealthOfProtected(int val)
+	{
+		healthOfProtected -= val;
+		CallDamageProtected ("-"+val.ToString ());
+		if (healthOfProtected <= 0) {
+			GameObject[] objectProtected = GameObject.FindGameObjectsWithTag("Protected");
+			if (objectProtected != null) {
+				Destroy (objectProtected [0]);
+			}
+			ShowCanvasGameOver ();
+		}
+	}
+
+	public void IncreaseHealthOfProtected(int val)
+	{
+		healthOfProtected += val;
 	}
 
 	public void DestroyAllEnemies()
@@ -293,38 +334,46 @@ public class CharacterController : MonoBehaviour {
 
 	void Jump()
 	{
-		if (Player.transform.position.y <= 6.24) {
-			if (grounded && !gameOver) {
-				Player.GetComponent<Rigidbody2D> ().velocity = new Vector2 (Player.GetComponent<Rigidbody2D> ().velocity.x, 0);
-				Player.GetComponent<Rigidbody2D> ().AddForce (new Vector2 (0, jumpForce));
-				canDoublejump = true;
-				grounded = false;
-				Player.GetComponent<PlayerController> ().setGrounded (grounded);
-			} 
+		if (Player.GetComponent<Rigidbody2D> () != null) {
+			if (Player.transform.position.y <= 6.24) {
+				if (grounded && !gameOver) {
+					Player.GetComponent<Rigidbody2D> ().velocity = new Vector2 (Player.GetComponent<Rigidbody2D> ().velocity.x, 0);
+					Player.GetComponent<Rigidbody2D> ().AddForce (new Vector2 (0, jumpForce));
+					canDoublejump = true;
+					grounded = false;
+					Player.GetComponent<PlayerController> ().setGrounded (grounded);
+				} 
+			}
 		}
 	}
 
 	public void countJumps()
 	{
-		jumps++;
-		if (jumps > 1) {
+		if (Player.GetComponent<Rigidbody2D> () != null) {
+			jumps++;
+			if (jumps > 1) {
 				Player.GetComponent<Rigidbody2D> ().velocity = new Vector2(Player.GetComponent<Rigidbody2D> ().velocity.x, 0);
 				Player.GetComponent<Rigidbody2D> ().AddForce (new Vector2 (0, jumpForce));
 				canDoublejump = false;
-			jumps = 0;
+				jumps = 0;
+			}
 		}
 	}
 
 
 	void MoveRight(float push)
 	{
-		if(Player.transform.position.x<2.24)
-			Player.GetComponent<Rigidbody2D> ().position += speed * Vector2.right * push * Time.deltaTime;
+		if (Player.GetComponent<Rigidbody2D> () != null) {
+			if(Player.transform.position.x<2.24)
+				Player.GetComponent<Rigidbody2D> ().position += speed * Vector2.right * push * Time.deltaTime;
+		}
 	}
 	void MoveLeft(float push)
 	{
-		if(Player.transform.position.x>-2.24)
-			Player.GetComponent<Rigidbody2D> ().position += speed * Vector2.right * push * Time.deltaTime;
+		if (Player.GetComponent<Rigidbody2D> () != null) {
+			if(Player.transform.position.x>-2.24)
+				Player.GetComponent<Rigidbody2D> ().position += speed * Vector2.right * push * Time.deltaTime;
+		}
 	}
 	void MoveUp()
 	{
@@ -363,6 +412,14 @@ public class CharacterController : MonoBehaviour {
 	public void ShowCanvasGameOver()
 	{
 		CanvasGameOver.gameObject.SetActive (true);
+		StopWorld ();
+	}
+
+	public void StopWorld()
+	{
+		decreasePublicSpeed (2);
+		Destroy (Player.GetComponent<Rigidbody2D> ());
+		lose = true;
 	}
 
 	public void ShowCanvasWin()

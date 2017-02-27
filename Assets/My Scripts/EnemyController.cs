@@ -18,23 +18,33 @@ public class EnemyController : MonoBehaviour {
 
 	void CheckTargetPosition(){
 		GameObject[] objectProtected = GameObject.FindGameObjectsWithTag("Protected");
-		if(objectProtected!=null)
+		if(objectProtected.Length>0)
 			target = objectProtected [0];
 	}
 
 	void CheckTargetHeight()
 	{
-		if (transform.position.y >= target.transform.position.y -5) {
-			following = true;
+		if (target != null) {
+			if (transform.position.y >= target.transform.position.y -5) {
+				following = true;
+			}
+			ChaseTarget ();
 		}
-		ChaseTarget ();
 	}
 
 	void ChaseTarget (){
 		if (following) {
 			transform.position = 
 				Vector2.MoveTowards(transform.position, 
-					target.transform.position, 0.5f * Time.deltaTime);
+					target.transform.position, 1.5f * Time.deltaTime);
+			if (transform.position.y == target.transform.position.y && transform.position.x == target.transform.position.x) {
+				//Inflict damage on Protected
+				GameObject[] gc = GameObject.FindGameObjectsWithTag("GameController");
+				if (gc != null) {
+					gc [0].GetComponent<CharacterController> ().DecreaseHealthOfProtected(1);
+					Destroy (gameObject);
+				}
+			}
 		}
 	}
 
@@ -62,7 +72,7 @@ public class EnemyController : MonoBehaviour {
 		Vector3 firePosition = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, 0);
 		GameObject damage = (GameObject)Resources.Load ("Damage");
 		GameObject bPrefab = Instantiate(damage, firePosition, Quaternion.identity) as GameObject;
-		bPrefab.GetComponent<DamageController> ().CreateDamage (value);
+		bPrefab.GetComponent<DamageController> ().CreateDamage ("-"+value.ToString());
 	}
 
 	public int GetHealth()

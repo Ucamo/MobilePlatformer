@@ -13,7 +13,7 @@ public class DamageController : MonoBehaviour {
 	
 	}
 
-	public void CreateDamage(int value)
+	public void CreateDamage(string value)
 	{
 		DrawText (value);
 		JumpRandom ();
@@ -34,7 +34,7 @@ public class DamageController : MonoBehaviour {
 		txtFront.color = color;
 	}
 
-	void DrawText(int value)
+	void DrawText(string value)
 	{
 		txtFront.text = value.ToString ();
 		txtBack.text = value.ToString ();
