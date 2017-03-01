@@ -10,8 +10,8 @@ public class HPController : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		string currentHP = character.GetComponent<CharacterController>().getHealthOfProtected().ToString();
-		string maxHP = character.GetComponent<CharacterController>().getMaxHealthOfProtected().ToString();
+		string currentHP = character.GetComponent<GameController>().getHealthOfProtected().ToString();
+		string maxHP = character.GetComponent<GameController>().getMaxHealthOfProtected().ToString();
 
 		float cur_HP= float.Parse(currentHP); 
 		float max_HP = float.Parse(maxHP); 

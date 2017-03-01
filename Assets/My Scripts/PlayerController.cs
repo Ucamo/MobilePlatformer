@@ -5,7 +5,7 @@ public class PlayerController : MonoBehaviour {
 
 	public bool grounded;
 	public bool walled;
-	public GameObject CharacterController;
+	public GameObject GameController;
 
 	void Start () {
 		
@@ -46,22 +46,22 @@ public class PlayerController : MonoBehaviour {
 		}
 		if (coll.gameObject.tag == "Coin")
 		{
-			CharacterController.GetComponent<CharacterController>().IncreaseCoin();
+			GameController.GetComponent<GameController>().IncreaseCoin();
 			Destroy (coll.gameObject);
 		}
 		if (coll.gameObject.tag == "ManaPotion")
 		{
-			CharacterController.GetComponent<CharacterController>().IncreaseMana(3);
+			GameController.GetComponent<GameController>().IncreaseMana(3);
 			Destroy (coll.gameObject);
 		}
 		if (coll.gameObject.tag == "1Up")
 		{
-			CharacterController.GetComponent<CharacterController>().IncreaseLives();
+			GameController.GetComponent<GameController>().IncreaseLives();
 			Destroy (coll.gameObject);
 		}
 		if (coll.gameObject.tag == "Item")
 		{
-			CharacterController.GetComponent<CharacterController>().AddItemToInventory(coll.gameObject);
+			GameController.GetComponent<GameController>().AddItemToInventory(coll.gameObject);
 		}
 		if (coll.gameObject.tag == "Wall") {
 			walled = true;
@@ -80,22 +80,22 @@ public class PlayerController : MonoBehaviour {
 		}
 		if (other.gameObject.tag == "Coin")
 		{
-			CharacterController.GetComponent<CharacterController>().IncreaseCoin();
+			GameController.GetComponent<GameController>().IncreaseCoin();
 			Destroy (other.gameObject);
 		}
 		if (other.gameObject.tag == "ManaPotion")
 		{
-			CharacterController.GetComponent<CharacterController>().IncreaseMana(3);
+			GameController.GetComponent<GameController>().IncreaseMana(3);
 			Destroy (other.gameObject);
 		}
 		if (other.gameObject.tag == "1Up")
 		{
-			CharacterController.GetComponent<CharacterController>().IncreaseLives();
+			GameController.GetComponent<GameController>().IncreaseLives();
 			Destroy (other.gameObject);
 		}
 		if (other.gameObject.tag == "Item")
 		{
-			CharacterController.GetComponent<CharacterController>().AddItemToInventory(other.gameObject);
+			GameController.GetComponent<GameController>().AddItemToInventory(other.gameObject);
 		}
 		if (other.gameObject.tag == "Wall") {
 			walled = true;

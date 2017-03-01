@@ -45,7 +45,7 @@ public class ObjectDestroyer : MonoBehaviour {
 	{
 		GameObject[] gc = GameObject.FindGameObjectsWithTag("GameController");
 		if (gc != null) {
-			gc [0].GetComponent<CharacterController> ().decreaseLives ();
+			gc [0].GetComponent<GameController> ().decreaseLives ();
 
 		}
 	}

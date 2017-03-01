@@ -18,7 +18,7 @@ public class SinMovement : MonoBehaviour {
 		} else {
 			GameObject[] gc = GameObject.FindGameObjectsWithTag("GameController");
 			if (gc != null) {
-				bool win = gc [0].GetComponent<CharacterController> ().getWin ();
+				bool win = gc [0].GetComponent<GameController> ().getWin ();
 				if (!win) {
 					transform.position = _startPosition + new Vector3 (Mathf.Sin (Time.time) * 2, 0.0f, 0.0f);
 				}

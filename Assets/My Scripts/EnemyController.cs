@@ -81,7 +81,7 @@ public class EnemyController : MonoBehaviour {
 				//Inflict damage on Protected
 				GameObject[] gc = GameObject.FindGameObjectsWithTag("GameController");
 				if (gc != null) {
-					gc [0].GetComponent<CharacterController> ().DecreaseHealthOfProtected(1);
+					gc [0].GetComponent<GameController> ().DecreaseHealthOfProtected(1);
 					Destroy (gameObject);
 				}
 			}
@@ -95,13 +95,13 @@ public class EnemyController : MonoBehaviour {
 		if (currentHealth <= 0) {
 			GameObject[] gc = GameObject.FindGameObjectsWithTag("GameController");
 			if (gc != null) {
-				gc [0].GetComponent<CharacterController> ().IncreaseScore (experience);
+				gc [0].GetComponent<GameController> ().IncreaseScore (experience);
 				CallExperiencie (experience);
 				int index = Random.Range (0, 30);
 				if (index == 15) {
-					gc [0].GetComponent<CharacterController> ().ProtectedDropRareItem ();
+					gc [0].GetComponent<GameController> ().ProtectedDropRareItem ();
 				} else {
-					gc [0].GetComponent<CharacterController> ().ProtectedDropItem ();
+					gc [0].GetComponent<GameController> ().ProtectedDropItem ();
 				}
 				Destroy (gameObject);
 			}

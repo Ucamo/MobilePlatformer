@@ -36,7 +36,7 @@ public class SpawnObjects : MonoBehaviour {
 	{
 		GameObject[] gc = GameObject.FindGameObjectsWithTag("GameController");
 		if (gc != null) {
-			float publicSpeed = gc [0].GetComponent<CharacterController> ().getPublicSpeed();
+			float publicSpeed = gc [0].GetComponent<GameController> ().getPublicSpeed();
 			if (publicSpeed == -2) {
 				CancelInvoke ();
 			} else {

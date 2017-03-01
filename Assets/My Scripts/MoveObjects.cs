@@ -27,7 +27,7 @@ public class MoveObjects : MonoBehaviour {
 			modificador = 1;
 		GameObject[] gc = GameObject.FindGameObjectsWithTag("GameController");
 		if (gc != null) {
-			publicSpeed = gc [0].GetComponent<CharacterController> ().getPublicSpeed();
+			publicSpeed = gc [0].GetComponent<GameController> ().getPublicSpeed();
 		}
 	}
 
