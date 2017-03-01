@@ -96,6 +96,7 @@ public class EnemyController : MonoBehaviour {
 			GameObject[] gc = GameObject.FindGameObjectsWithTag("GameController");
 			if (gc != null) {
 				gc [0].GetComponent<CharacterController> ().IncreaseScore (experience);
+				CallExperiencie (experience);
 				int index = Random.Range (0, 30);
 				if (index == 15) {
 					gc [0].GetComponent<CharacterController> ().ProtectedDropRareItem ();
@@ -114,6 +115,15 @@ public class EnemyController : MonoBehaviour {
 		GameObject damage = (GameObject)Resources.Load ("Damage");
 		GameObject bPrefab = Instantiate(damage, firePosition, Quaternion.identity) as GameObject;
 		bPrefab.GetComponent<DamageController> ().CreateDamage ("-"+value.ToString());
+	}
+
+	void CallExperiencie(int value)
+	{
+		Vector3 firePosition = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, 0);
+		GameObject damage = (GameObject)Resources.Load ("Damage");
+		GameObject bPrefab = Instantiate(damage, firePosition, Quaternion.identity) as GameObject;
+		Color white = new Color (1,1,1);
+		bPrefab.GetComponent<DamageController> ().CreateBonusColor ("+"+value+" Pts",white);
 	}
 
 	public int GetHealth()
