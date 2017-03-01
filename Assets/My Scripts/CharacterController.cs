@@ -13,6 +13,7 @@ public class CharacterController : MonoBehaviour {
 	public int currentMana;
 	public int maxMana;
 	public int healthOfProtected;
+	public int maxHealthOfProtected;
 	public float bulletSpeed;
 	public float speed=15f;
 	public float jumpForce=450;
@@ -50,7 +51,7 @@ public class CharacterController : MonoBehaviour {
 		gameOver = false;
 		jumps = 0;
 		coins = 0;
-
+		HideHealthBarProtected ();
 	}
 	void Update()
 	{
@@ -196,6 +197,11 @@ public class CharacterController : MonoBehaviour {
 		return score;
 	}
 
+	public int getMaxHealthOfProtected()
+	{
+		return maxHealthOfProtected;
+	}
+
 	void HandleMovement()
 	{
 		if (isRight) {
@@ -270,18 +276,53 @@ public class CharacterController : MonoBehaviour {
 	{
 		healthOfProtected -= val;
 		CallDamageProtected ("-"+val.ToString ());
+		ShowHealthBarProtected();
 		if (healthOfProtected <= 0) {
 			GameObject[] objectProtected = GameObject.FindGameObjectsWithTag("Protected");
 			if (objectProtected != null) {
 				Destroy (objectProtected [0]);
+
 			}
 			ShowCanvasGameOver ();
 		}
 	}
 
+	public int getHealthOfProtected()
+	{
+		return healthOfProtected;
+	}
+
 	public void IncreaseHealthOfProtected(int val)
 	{
 		healthOfProtected += val;
+		ShowHealthBarProtected();
+	}
+
+	public void ShowHealthBarProtected()
+	{
+		StartCoroutine(showHealth());
+	}
+
+	IEnumerator showHealth ()
+	{ 
+		GameObject[] objectProtected = GameObject.FindGameObjectsWithTag("Protected");
+		if (objectProtected != null) {
+			GameObject objProtected = objectProtected [0];
+			GameObject healthBar = objProtected.transform.Find("HealthBar").gameObject;
+			healthBar.SetActive (true);
+			yield return new WaitForSeconds(1);
+			HideHealthBarProtected ();
+		}
+	}
+
+	public void HideHealthBarProtected()
+	{
+		GameObject[] objectProtected = GameObject.FindGameObjectsWithTag("Protected");
+		if (objectProtected != null) {
+			GameObject objProtected = objectProtected [0];
+			GameObject healthBar = objProtected.transform.Find("HealthBar").gameObject;
+			healthBar.SetActive (false);
+		}
 	}
 
 	public void DestroyAllEnemies()
@@ -299,7 +340,6 @@ public class CharacterController : MonoBehaviour {
 		}
 		//Reset item slot
 		ResetItemSlot();
-
 	}
 
 	void ResetItemSlot()
