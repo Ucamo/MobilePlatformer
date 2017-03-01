@@ -7,7 +7,7 @@ public class CharacterController : MonoBehaviour {
 	public GameObject projectile;
 	public Text txtCoins; 
 	public Text txtScore;
-	public Text txtMana;
+	public GameObject manaBar;
 	public Text txtLives;
 	public Button btnItem;
 	public int currentMana;
@@ -64,6 +64,7 @@ public class CharacterController : MonoBehaviour {
 			CheckEvents ();
 		}
 		DrawUI ();
+		CheckMana ();
 	}
 
 	public void CheckEvents()
@@ -98,7 +99,6 @@ public class CharacterController : MonoBehaviour {
 	{
 		txtCoins.text = "Coins: " + coins;
 		txtScore.text = "Score: " + score;
-		txtMana.text = "Mana: " + currentMana + "/" + maxMana;
 		txtLives.text = "Lives: " + getLives ();
 	}
 
@@ -285,6 +285,19 @@ public class CharacterController : MonoBehaviour {
 			}
 			ShowCanvasGameOver ();
 		}
+	}
+
+	void CheckMana()
+	{
+		float cur_M= float.Parse(currentMana.ToString()); 
+		float max_M = float.Parse(maxMana.ToString()); 
+
+		float calc_mana =  cur_M/ max_M;
+		SetManaBar (calc_mana);
+	}
+
+	public void SetManaBar(float myMana){
+		manaBar.transform.localScale = new Vector3(Mathf.Clamp(myMana,0f ,1f), manaBar.transform.localScale.y, manaBar.transform.localScale.z);
 	}
 
 	public int getHealthOfProtected()
