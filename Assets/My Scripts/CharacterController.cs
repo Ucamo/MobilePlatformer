@@ -6,7 +6,7 @@ public class CharacterController : MonoBehaviour {
 
 	public GameObject projectile;
 	public Text txtCoins; 
-	public Text txtScore;
+	public GameObject scoreBar;
 	public GameObject manaBar;
 	public Text txtLives;
 	public Button btnItem;
@@ -64,7 +64,7 @@ public class CharacterController : MonoBehaviour {
 			CheckEvents ();
 		}
 		DrawUI ();
-		CheckMana ();
+
 	}
 
 	public void CheckEvents()
@@ -98,8 +98,9 @@ public class CharacterController : MonoBehaviour {
 	void DrawUI()
 	{
 		txtCoins.text = "Coins: " + coins;
-		txtScore.text = "Score: " + score;
 		txtLives.text = "Lives: " + getLives ();
+		CheckMana ();
+		CheckScoreBar ();
 	}
 
 	void KeyBoardMovement(){
@@ -298,6 +299,19 @@ public class CharacterController : MonoBehaviour {
 
 	public void SetManaBar(float myMana){
 		manaBar.transform.localScale = new Vector3(Mathf.Clamp(myMana,0f ,1f), manaBar.transform.localScale.y, manaBar.transform.localScale.z);
+	}
+
+	void CheckScoreBar()
+	{
+		float cur_S= float.Parse(score.ToString()); 
+		float max_S = float.Parse(levelScoreGoal.ToString()); 
+
+		float calc_score =  cur_S/ max_S;
+		SetScoreBar (calc_score);
+	}
+
+	public void SetScoreBar(float myScore){
+		scoreBar.transform.localScale = new Vector3(Mathf.Clamp(myScore,0f ,1f), scoreBar.transform.localScale.y, scoreBar.transform.localScale.z);
 	}
 
 	public int getHealthOfProtected()
