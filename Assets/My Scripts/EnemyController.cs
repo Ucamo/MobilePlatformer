@@ -5,15 +5,55 @@ public class EnemyController : MonoBehaviour {
 
 	bool following;
 	GameObject target;
-	public int totalHealth;
+	public int currentHealth;
+	public int maxHealth;
 	public int experience;
+
+	public GameObject healthBar;
+
 	void Start () {
 		following = false;
+		HideHealthBar();
 	}
 
 	void Update () {
 		CheckTargetPosition ();
 		CheckTargetHeight ();
+		CheckHealth ();
+	}
+
+	void CheckHealth()
+	{
+		string currentHP = currentHealth.ToString ();
+		string maxHP = maxHealth.ToString ();;
+
+		float cur_HP= float.Parse(currentHP); 
+		float max_HP = float.Parse(maxHP); 
+
+		float calc_health =  cur_HP/ max_HP;
+		SetHealthBar (calc_health);
+	}
+	public void SetHealthBar(float myHealth){
+		healthBar.transform.localScale = new Vector3(Mathf.Clamp(myHealth,0f ,1f), healthBar.transform.localScale.y, healthBar.transform.localScale.z);
+	}
+
+	public void ShowHealthBar()
+	{
+		StartCoroutine(showHealth());
+	}
+
+	IEnumerator showHealth ()
+	{ 
+		GameObject healthBar = transform.Find("HealthBar").gameObject;
+		healthBar.SetActive (true);
+		yield return new WaitForSeconds(1);
+		HideHealthBar();
+	}
+
+	public void HideHealthBar()
+	{
+		GameObject healthBar = transform.Find("HealthBar").gameObject;
+		healthBar.SetActive (false);
 	}
 
 	void CheckTargetPosition(){
@@ -49,9 +89,10 @@ public class EnemyController : MonoBehaviour {
 	}
 
 	public void DecreaseHealth(){
-		totalHealth--;
+		currentHealth--;
 		CallDamage (1);
-		if (totalHealth <= 0) {
+		ShowHealthBar ();
+		if (currentHealth <= 0) {
 			GameObject[] gc = GameObject.FindGameObjectsWithTag("GameController");
 			if (gc != null) {
 				gc [0].GetComponent<CharacterController> ().IncreaseScore (experience);
@@ -77,7 +118,7 @@ public class EnemyController : MonoBehaviour {
 
 	public int GetHealth()
 	{
-		return totalHealth;
+		return currentHealth;
 	}
 
 	void OnTriggerEnter2D(Collider2D other)
