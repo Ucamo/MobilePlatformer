@@ -23,7 +23,10 @@ public class EnemyController : MonoBehaviour {
 	void Update () {
 		CheckTargetPosition ();
 		if (!isProjectile) {
-			CheckTargetHeight ();
+			if (!isBoss) {
+				CheckTargetHeight ();
+			}
+
 		}
 		CheckHealth ();
 		CheckPlayer ();

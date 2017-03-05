@@ -5,8 +5,10 @@ public class MoveObjects : MonoBehaviour {
 
 	public GameObject prefab;
 	public float speed;
+	public bool isBoss;
 	float publicSpeed;
 	int modificador;
+	GameObject objToProtect;
 	// Use this for initialization
 	void Start () {
 
@@ -15,7 +17,7 @@ public class MoveObjects : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		GetSpeed ();
-		Move ();
+		CheckGameObjectType ();
 	}
 
 	void GetSpeed()
@@ -28,6 +30,22 @@ public class MoveObjects : MonoBehaviour {
 		GameObject[] gc = GameObject.FindGameObjectsWithTag("GameController");
 		if (gc != null) {
 			publicSpeed = gc [0].GetComponent<GameController> ().getPublicSpeed();
+			objToProtect = gc [0].GetComponent<GameController> ().GetObjProtected ();
+		}
+	}
+
+	void CheckGameObjectType()
+	{
+		if (isBoss) {
+			if (objToProtect != null) {
+				if (prefab.transform.position.y >= objToProtect.transform.position.y - 5) {
+					//can't get higher
+				} else {
+					Move ();
+				}
+			}
+		} else {
+			Move ();
 		}
 	}
 

@@ -632,5 +632,15 @@ public class GameController : MonoBehaviour {
 	{
 		return bossDefeated;
 	}
+
+	public GameObject GetObjProtected()
+	{
+		GameObject[] objectProtected = GameObject.FindGameObjectsWithTag("Protected");
+		if (objectProtected.Length > 0 && objectProtected != null) {
+			return objectProtected [0];
+		} else {
+			return null;
+		}
+	}
 		
 }

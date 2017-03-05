@@ -42,9 +42,10 @@ public class DamageController : MonoBehaviour {
 
 	void JumpRandom()
 	{
-		int randomForce = Random.Range (200, 300);
+		int randomForce = Random.Range (150, 300);
+		Vector3 dir = Quaternion.AngleAxis(85, Vector3.forward) * Vector3.right;
 		gameObject.GetComponent<Rigidbody2D> ().velocity = new Vector2 (gameObject.GetComponent<Rigidbody2D> ().velocity.x, 0);
-		gameObject.GetComponent<Rigidbody2D> ().AddForce (new Vector2 (0, randomForce));
+		gameObject.GetComponent<Rigidbody2D> ().AddForce (dir*randomForce);
 	}
 	void Destroy()
 	{
