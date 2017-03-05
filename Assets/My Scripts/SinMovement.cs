@@ -14,16 +14,25 @@ public class SinMovement : MonoBehaviour {
 	void Update()
 	{
 		if (!isTarget) {
-			transform.position = _startPosition + new Vector3 (Mathf.Sin (Time.time) * 2, 0.0f, 0.0f);
+			Move();
 		} else {
 			GameObject[] gc = GameObject.FindGameObjectsWithTag("GameController");
 			if (gc != null) {
 				bool win = gc [0].GetComponent<GameController> ().getWin ();
+				bool bossDefeated = gc [0].GetComponent<GameController> ().getBossDefeated();
 				if (!win) {
-					transform.position = _startPosition + new Vector3 (Mathf.Sin (Time.time) * 2, 0.0f, 0.0f);
+					Move();
+				} else {
+					if (!bossDefeated) {
+						Move();
+					}
 				}
 			}
 		}
+	}
 
+	void Move()
+	{
+		transform.position = _startPosition + new Vector3 (Mathf.Sin (Time.time) * 2, 0.0f, 0.0f);
 	}
 }

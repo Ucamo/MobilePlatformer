@@ -11,6 +11,7 @@ public class EnemyController : MonoBehaviour {
 	public int enemyAttack;
 	public bool isProjectile;
 	int charAttack;
+	public bool isBoss;
 
 	public GameObject healthBar;
 
@@ -135,7 +136,11 @@ public class EnemyController : MonoBehaviour {
 				} else {
 					CallWord ("DEFENDED");
 				}
+				if (isBoss) {
+					gc [0].GetComponent<GameController> ().SetBossDefeated (true);
+				}
 				Destroy (this.gameObject.gameObject);
+
 			}
 		}
 	}

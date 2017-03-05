@@ -28,6 +28,10 @@ public class GameController : MonoBehaviour {
 	public bool grounded;
 	public bool walled;
 	public float publicSpeed;
+	public bool levelBoss;
+	public GameObject objBoss;
+	public bool bossDefeated;
+	bool bossActive;
 	bool gameOver;
 	bool canDoublejump;
 	int jumps;
@@ -71,7 +75,17 @@ public class GameController : MonoBehaviour {
 	public void CheckEvents()
 	{
 		if (win) {
-			PlayLevelWarp ();
+			if (!levelBoss) {
+				PlayLevelWarp ();
+			} else {
+				if (!bossActive) {
+					SpawnBoss ();
+					bossActive = true;
+				}
+			}
+			if (bossDefeated) {
+				PlayLevelWarp ();
+			}
 		}
 		if (goingToNextLevel) {
 			PlayGoingToNextLevel ();
@@ -367,19 +381,19 @@ public class GameController : MonoBehaviour {
 	{
 		GameObject[] enemyArray = GameObject.FindGameObjectsWithTag("Enemy");
 		if (enemyArray.Length>0 && enemyArray!=null) {
-			Debug.Log (enemyArray.Length);
 			foreach (GameObject objEnemy in enemyArray) {
 				if (objEnemy.transform.position.y >= -3.5) {
 					if (objEnemy.GetComponent<EnemyController> () != null) {
 						int enemyHealth = objEnemy.GetComponent<EnemyController> ().GetHealth ();
-						objEnemy.GetComponent<EnemyController> ().DecreaseHealth (enemyHealth);
+						if (!objEnemy.name.Contains ("Boss")) {
+							objEnemy.GetComponent<EnemyController> ().DecreaseHealth (enemyHealth);
+						}
 					}
 				}
 			}
 		}
 		//Reset item slot
 		ResetItemSlot();
-		Debug.Log (score.ToString ());
 	}
 
 	void ResetItemSlot()
@@ -549,13 +563,14 @@ public class GameController : MonoBehaviour {
 	public void CheckScore()
 	{
 		if (score >= levelScoreGoal) {
-			StopWorld ();
+			
 			win = true;
 		}
 	}
 
 	public void PlayLevelWarp()
 	{
+		StopWorld ();
 		GameObject[] objectProtected = GameObject.FindGameObjectsWithTag("Protected");
 		if (objectProtected != null) {
 			GameObject objProtected = objectProtected[0].gameObject;
@@ -600,6 +615,22 @@ public class GameController : MonoBehaviour {
 	public bool getWin()
 	{
 		return win;
+	}
+
+	void SpawnBoss()
+	{
+		Vector3 firePosition = new Vector3(0, -4.5f, -1);
+		GameObject bPrefab = Instantiate(objBoss, firePosition, Quaternion.identity) as GameObject;
+	}
+
+	public void SetBossDefeated(bool val)
+	{
+		bossDefeated = val;
+	}
+
+	public bool getBossDefeated()
+	{
+		return bossDefeated;
 	}
 		
 }
