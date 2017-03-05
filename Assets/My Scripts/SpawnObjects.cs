@@ -3,7 +3,7 @@ using System.Collections;
 
 public class SpawnObjects : MonoBehaviour {
 
-	public GameObject objetoASpawnear;
+	public GameObject[] objetoASpawnear;
 	public float frecuenciaDeSpawneo;
 	public float coordenadaX;
 	public float coordenadaY;
@@ -54,6 +54,7 @@ public class SpawnObjects : MonoBehaviour {
 
 	void SpawnObject()
 	{
+		int index = Random.Range (0, objetoASpawnear.Length);
 		int randomNumber = (int)(Random.Range( probabilidadMinima, probabilidadMaxima ));
 		if (wildCard != -9) {
 			if (randomNumber != wildCard) {
@@ -64,7 +65,7 @@ public class SpawnObjects : MonoBehaviour {
 					position = new Vector3 (coordenadaX, coordenadaY, coordenadaZ);
 				}
 
-				GameObject newGameObject = Instantiate (objetoASpawnear);
+				GameObject newGameObject = Instantiate (objetoASpawnear[index]);
 				newGameObject.transform.position = position;
 			}
 		} else {
@@ -76,7 +77,7 @@ public class SpawnObjects : MonoBehaviour {
 					position = new Vector3(coordenadaX, coordenadaY, coordenadaZ);
 				}
 
-				GameObject newGameObject = Instantiate(objetoASpawnear);
+				GameObject newGameObject = Instantiate(objetoASpawnear[index]);
 				newGameObject.transform.position = position;
 			}
 		}
