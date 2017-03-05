@@ -17,6 +17,7 @@ public class GameController : MonoBehaviour {
 	public float bulletSpeed;
 	public float speed=15f;
 	public float jumpForce=450;
+	public int attack;
 	bool isRight;
 	bool isLeft;
 	bool isUp;
@@ -78,6 +79,14 @@ public class GameController : MonoBehaviour {
 		if (readyNextLevel) {
 			ShowCanvasWin ();
 		}
+	}
+
+	public int getAttack(){
+		return attack;
+	}
+	public void IncreaseAttack(int val)
+	{
+		attack += val;
 	}
 
 	public float getPublicSpeed()

@@ -8,6 +8,7 @@ public class EnemyController : MonoBehaviour {
 	public int currentHealth;
 	public int maxHealth;
 	public int experience;
+	public int enemyAttack;
 
 	public GameObject healthBar;
 
@@ -20,6 +21,11 @@ public class EnemyController : MonoBehaviour {
 		CheckTargetPosition ();
 		CheckTargetHeight ();
 		CheckHealth ();
+	}
+
+	public int getEnemyAttack()
+	{
+		return enemyAttack;
 	}
 
 	void CheckHealth()
@@ -81,7 +87,7 @@ public class EnemyController : MonoBehaviour {
 				//Inflict damage on Protected
 				GameObject[] gc = GameObject.FindGameObjectsWithTag("GameController");
 				if (gc != null) {
-					gc [0].GetComponent<GameController> ().DecreaseHealthOfProtected(1);
+					gc [0].GetComponent<GameController> ().DecreaseHealthOfProtected(enemyAttack);
 					Destroy (gameObject);
 				}
 			}
@@ -89,12 +95,13 @@ public class EnemyController : MonoBehaviour {
 	}
 
 	public void DecreaseHealth(){
-		currentHealth--;
-		CallDamage (1);
-		ShowHealthBar ();
-		if (currentHealth <= 0) {
-			GameObject[] gc = GameObject.FindGameObjectsWithTag("GameController");
-			if (gc != null) {
+		GameObject[] gc = GameObject.FindGameObjectsWithTag("GameController");
+		if (gc != null) {
+			int charAttack = gc [0].GetComponent<GameController> ().getAttack ();
+			currentHealth -= charAttack;
+			CallDamage (charAttack);
+			ShowHealthBar ();
+			if (currentHealth <= 0) {
 				gc [0].GetComponent<GameController> ().IncreaseScore (experience);
 				CallExperiencie (experience);
 				int index = Random.Range (0, 30);
@@ -105,7 +112,6 @@ public class EnemyController : MonoBehaviour {
 				}
 				Destroy (gameObject);
 			}
-	
 		}
 	}
 
