@@ -10,6 +10,7 @@ public class EnemyController : MonoBehaviour {
 	public int experience;
 	public int enemyAttack;
 	public bool isProjectile;
+	int charAttack;
 
 	public GameObject healthBar;
 
@@ -24,11 +25,22 @@ public class EnemyController : MonoBehaviour {
 			CheckTargetHeight ();
 		}
 		CheckHealth ();
+		CheckPlayer ();
 	}
 
 	public int getEnemyAttack()
 	{
 		return enemyAttack;
+	}
+
+	void CheckPlayer()
+	{
+		GameObject[] gc = GameObject.FindGameObjectsWithTag("GameController");
+		if (gc.Length > 0) {
+			int attack = gc [0].GetComponent<GameController> ().getAttack ();
+			charAttack = attack;
+		}
+
 	}
 
 	void CheckHealth()
@@ -101,13 +113,13 @@ public class EnemyController : MonoBehaviour {
 		}
 	}
 		
-	public void DecreaseHealth(){
+	public void DecreaseHealth(int value){
 		GameObject[] gc = GameObject.FindGameObjectsWithTag("GameController");
 		if (gc != null) {
 			int charAttack = gc [0].GetComponent<GameController> ().getAttack ();
-			currentHealth -= charAttack;
+			currentHealth -= value;
 			if (!isProjectile) {
-				CallDamage (charAttack);
+				CallDamage (value);
 				ShowHealthBar ();
 			}
 			if (currentHealth <= 0) {
@@ -159,11 +171,16 @@ public class EnemyController : MonoBehaviour {
 		return currentHealth;
 	}
 
+	public int GetMaxHealth()
+	{
+		return maxHealth;
+	}
+
 	void OnTriggerEnter2D(Collider2D other)
 	{
 		if (other.gameObject.tag == "Projectile")
 		{
-			DecreaseHealth ();
+			DecreaseHealth (charAttack);
 			Destroy (other.gameObject);
 		}
 		if (other.gameObject.tag == "Protected")
@@ -176,7 +193,7 @@ public class EnemyController : MonoBehaviour {
 	{
 		if (coll.gameObject.tag == "Projectile")
 		{
-			DecreaseHealth ();
+			DecreaseHealth (charAttack);
 			Destroy (coll.gameObject);
 		}
 		if (coll.gameObject.tag == "Protected")

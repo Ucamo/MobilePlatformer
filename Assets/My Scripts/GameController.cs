@@ -367,19 +367,19 @@ public class GameController : MonoBehaviour {
 	{
 		GameObject[] enemyArray = GameObject.FindGameObjectsWithTag("Enemy");
 		if (enemyArray.Length>0 && enemyArray!=null) {
+			Debug.Log (enemyArray.Length);
 			foreach (GameObject objEnemy in enemyArray) {
 				if (objEnemy.transform.position.y >= -3.5) {
 					if (objEnemy.GetComponent<EnemyController> () != null) {
 						int enemyHealth = objEnemy.GetComponent<EnemyController> ().GetHealth ();
-						for (int x = 0; x <= enemyHealth; x++) {
-							objEnemy.GetComponent<EnemyController> ().DecreaseHealth ();
-						}
+						objEnemy.GetComponent<EnemyController> ().DecreaseHealth (enemyHealth);
 					}
 				}
 			}
 		}
 		//Reset item slot
 		ResetItemSlot();
+		Debug.Log (score.ToString ());
 	}
 
 	void ResetItemSlot()
