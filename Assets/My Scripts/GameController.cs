@@ -102,6 +102,8 @@ public class GameController : MonoBehaviour {
 	public void decreasePublicSpeed(float val)
 	{
 		publicSpeed -= val;
+		if (val == 2)
+			publicSpeed = -2;
 	}
 
 	void DrawUI()
@@ -364,12 +366,14 @@ public class GameController : MonoBehaviour {
 	public void DestroyAllEnemies()
 	{
 		GameObject[] enemyArray = GameObject.FindGameObjectsWithTag("Enemy");
-		if (enemyArray != null) {
+		if (enemyArray.Length>0 && enemyArray!=null) {
 			foreach (GameObject objEnemy in enemyArray) {
 				if (objEnemy.transform.position.y >= -3.5) {
-					int enemyHealth = objEnemy.GetComponent<EnemyController> ().GetHealth ();
-					for (int x = 0; x <= enemyHealth; x++) {
-						objEnemy.GetComponent<EnemyController> ().DecreaseHealth ();
+					if (objEnemy.GetComponent<EnemyController> () != null) {
+						int enemyHealth = objEnemy.GetComponent<EnemyController> ().GetHealth ();
+						for (int x = 0; x <= enemyHealth; x++) {
+							objEnemy.GetComponent<EnemyController> ().DecreaseHealth ();
+						}
 					}
 				}
 			}
@@ -545,7 +549,7 @@ public class GameController : MonoBehaviour {
 	public void CheckScore()
 	{
 		if (score >= levelScoreGoal) {
-			decreasePublicSpeed (2);
+			StopWorld ();
 			win = true;
 		}
 	}

@@ -123,7 +123,7 @@ public class EnemyController : MonoBehaviour {
 				} else {
 					CallWord ("DEFENDED");
 				}
-				Destroy (gameObject);
+				Destroy (this.gameObject.gameObject);
 			}
 		}
 	}
