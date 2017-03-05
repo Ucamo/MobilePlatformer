@@ -379,6 +379,7 @@ public class GameController : MonoBehaviour {
 
 	public void DestroyAllEnemies()
 	{
+		ShakeCamera (1f, 3f);
 		GameObject[] enemyArray = GameObject.FindGameObjectsWithTag("Enemy");
 		if (enemyArray.Length>0 && enemyArray!=null) {
 			foreach (GameObject objEnemy in enemyArray) {
@@ -621,6 +622,16 @@ public class GameController : MonoBehaviour {
 	{
 		Vector3 firePosition = new Vector3(0, -4.5f, -1);
 		GameObject bPrefab = Instantiate(objBoss, firePosition, Quaternion.identity) as GameObject;
+		ShakeCamera (1f, 5f);
+	}
+
+	public void ShakeCamera(float amount, float duration)
+	{
+		GameObject[] arrayCamera = GameObject.FindGameObjectsWithTag("MainCamera");
+		if (arrayCamera.Length > 0 && arrayCamera != null) {
+			GameObject mainCamera = arrayCamera [0].gameObject;
+			mainCamera.GetComponent<ShakeCamera>().CameraShake(amount,duration);
+		}
 	}
 
 	public void SetBossDefeated(bool val)
