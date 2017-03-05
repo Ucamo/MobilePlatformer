@@ -9,6 +9,7 @@ public class EnemyController : MonoBehaviour {
 	public int maxHealth;
 	public int experience;
 	public int enemyAttack;
+	public bool isProjectile;
 
 	public GameObject healthBar;
 
@@ -19,7 +20,9 @@ public class EnemyController : MonoBehaviour {
 
 	void Update () {
 		CheckTargetPosition ();
-		CheckTargetHeight ();
+		if (!isProjectile) {
+			CheckTargetHeight ();
+		}
 		CheckHealth ();
 	}
 
@@ -45,7 +48,7 @@ public class EnemyController : MonoBehaviour {
 
 	public void ShowHealthBar()
 	{
-		StartCoroutine(showHealth());
+		StartCoroutine (showHealth ());
 	}
 
 	IEnumerator showHealth ()
@@ -84,35 +87,54 @@ public class EnemyController : MonoBehaviour {
 				Vector2.MoveTowards(transform.position, 
 					target.transform.position, 1.5f * Time.deltaTime);
 			if (transform.position.y == target.transform.position.y && transform.position.x == target.transform.position.x) {
-				//Inflict damage on Protected
-				GameObject[] gc = GameObject.FindGameObjectsWithTag("GameController");
-				if (gc != null) {
-					gc [0].GetComponent<GameController> ().DecreaseHealthOfProtected(enemyAttack);
-					Destroy (gameObject);
-				}
+				InflictDamageToProtected ();
 			}
 		}
 	}
 
+	void InflictDamageToProtected()
+	{
+		GameObject[] gc = GameObject.FindGameObjectsWithTag("GameController");
+		if (gc != null) {
+			gc [0].GetComponent<GameController> ().DecreaseHealthOfProtected(enemyAttack);
+			Destroy (gameObject);
+		}
+	}
+		
 	public void DecreaseHealth(){
 		GameObject[] gc = GameObject.FindGameObjectsWithTag("GameController");
 		if (gc != null) {
 			int charAttack = gc [0].GetComponent<GameController> ().getAttack ();
 			currentHealth -= charAttack;
-			CallDamage (charAttack);
-			ShowHealthBar ();
+			if (!isProjectile) {
+				CallDamage (charAttack);
+				ShowHealthBar ();
+			}
 			if (currentHealth <= 0) {
-				gc [0].GetComponent<GameController> ().IncreaseScore (experience);
-				CallExperiencie (experience);
 				int index = Random.Range (0, 30);
-				if (index == 15) {
-					gc [0].GetComponent<GameController> ().ProtectedDropRareItem ();
+				if (!isProjectile) {
+					gc [0].GetComponent<GameController> ().IncreaseScore (experience);
+					CallExperiencie (experience);
+					if (index == 15) {
+						gc [0].GetComponent<GameController> ().ProtectedDropRareItem ();
+					} else {
+						gc [0].GetComponent<GameController> ().ProtectedDropItem ();
+					}
 				} else {
-					gc [0].GetComponent<GameController> ().ProtectedDropItem ();
+					CallWord ("DEFENDED");
 				}
 				Destroy (gameObject);
 			}
 		}
+	}
+
+	void CallWord(string value)
+	{
+		Vector3 firePosition = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, 0);
+		GameObject damage = (GameObject)Resources.Load ("Damage");
+		GameObject bPrefab = Instantiate(damage, firePosition, Quaternion.identity) as GameObject;
+		Color white = new Color (1,1,1);
+		bPrefab.GetComponent<DamageController> ().CreateBonusColor (value,white);
 	}
 
 	void CallDamage(int value)
@@ -144,6 +166,10 @@ public class EnemyController : MonoBehaviour {
 			DecreaseHealth ();
 			Destroy (other.gameObject);
 		}
+		if (other.gameObject.tag == "Protected")
+		{
+			InflictDamageToProtected ();
+		}
 	}
 
 	void OnCollisionEnter2D(Collision2D coll)
@@ -152,6 +178,10 @@ public class EnemyController : MonoBehaviour {
 		{
 			DecreaseHealth ();
 			Destroy (coll.gameObject);
+		}
+		if (coll.gameObject.tag == "Protected")
+		{
+			InflictDamageToProtected ();
 		}
 	}
 }

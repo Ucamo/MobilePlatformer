@@ -354,7 +354,7 @@ public class GameController : MonoBehaviour {
 	public void HideHealthBarProtected()
 	{
 		GameObject[] objectProtected = GameObject.FindGameObjectsWithTag("Protected");
-		if (objectProtected != null) {
+		if (objectProtected.Length>0) {
 			GameObject objProtected = objectProtected [0];
 			GameObject healthBar = objProtected.transform.Find("HealthBar").gameObject;
 			healthBar.SetActive (false);
