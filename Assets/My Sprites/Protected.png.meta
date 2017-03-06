@@ -1,13 +1,11 @@
 fileFormatVersion: 2
-guid: 29af248e517234f7693c8782450568b6
-timeCreated: 1488737164
+guid: e3aa7bf47e8354b008212c51c0fe4783
+timeCreated: 1488774654
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: coin_0
-    21300002: coin_1
-    21300004: coin_2
-    21300006: coin_3
+    21300000: Protected_0
+    21300002: Protected_1
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -54,50 +52,41 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: coin_0
+    - name: Protected_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 16
-        height: 16
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-    - name: coin_1
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-    - name: coin_2
+      outline:
+      - - {x: -12, y: 12}
+        - {x: -12, y: -13}
+        - {x: 12, y: -13}
+        - {x: 13, y: -12}
+        - {x: 13, y: 12}
+    - name: Protected_1
       rect:
         serializedVersion: 2
         x: 32
         y: 0
-        width: 16
-        height: 16
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-    - name: coin_3
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
+      outline:
+      - - {x: 4, y: 12}
+        - {x: -16, y: 12}
+        - {x: -16, y: -11}
+        - {x: -11, y: -13}
+        - {x: 9, y: -13}
+        - {x: 16, y: -11}
+        - {x: 16, y: 8}
+        - {x: 15, y: 9}
     outline: []
   spritePackingTag: 
   userData: 
