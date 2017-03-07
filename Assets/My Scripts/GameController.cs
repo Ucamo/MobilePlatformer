@@ -15,7 +15,7 @@ public class GameController : MonoBehaviour {
 	public int healthOfProtected;
 	public int maxHealthOfProtected;
 	public float bulletSpeed;
-	public float speed=15f;
+	public float speed=8f;
 	public float jumpForce=450;
 	public int attack;
 	bool isRight;
@@ -51,6 +51,11 @@ public class GameController : MonoBehaviour {
 	bool goingToNextLevel;
 	bool readyNextLevel;
 
+	bool facingRigh;
+	bool a_idle;
+	bool a_jump;
+	bool a_attack;
+
 	void Start()
 	{
 		gameOver = false;
@@ -67,6 +72,7 @@ public class GameController : MonoBehaviour {
 			}
 			walled = Player.GetComponent<PlayerController> ().getWalled();
 			CheckEvents ();
+			CheckPlayerAnimations ();
 		}
 		DrawUI ();
 
@@ -149,6 +155,9 @@ public class GameController : MonoBehaviour {
 			ResetMovement ();
 		}
 		if (Input.GetKeyUp (KeyCode.DownArrow)) {
+			ResetMovement ();
+		}
+		if (Input.GetKeyUp (KeyCode.UpArrow)) {
 			ResetMovement ();
 		}
 
@@ -248,6 +257,7 @@ public class GameController : MonoBehaviour {
 		if (grounded) {
 			canDoublejump = false;
 			jumps = 0;
+			a_jump = false;
 		}
 	}
 
@@ -271,6 +281,7 @@ public class GameController : MonoBehaviour {
 			bPrefab.layer = LayerMask.NameToLayer ("Projectile");
 			bPrefab.GetComponent<Rigidbody2D>().AddForce(forceVector * bulletSpeed);
 			isDown = false;
+			a_attack = true;
 		}
 	}
 
@@ -437,6 +448,7 @@ public class GameController : MonoBehaviour {
 					canDoublejump = true;
 					grounded = false;
 					Player.GetComponent<PlayerController> ().setGrounded (grounded);
+					a_jump = true;
 				} 
 			}
 		}
@@ -459,16 +471,35 @@ public class GameController : MonoBehaviour {
 	void MoveRight(float push)
 	{
 		if (Player.GetComponent<Rigidbody2D> () != null) {
-			if(Player.transform.position.x<2.24)
+			if (Player.transform.position.x < 2.24) {
 				Player.GetComponent<Rigidbody2D> ().position += speed * Vector2.right * push * Time.deltaTime;
+				facingRigh = true;
+				Flip (facingRigh);
+			}
 		}
 	}
 	void MoveLeft(float push)
 	{
 		if (Player.GetComponent<Rigidbody2D> () != null) {
-			if(Player.transform.position.x>-2.24)
+			if(Player.transform.position.x>-2.24){
 				Player.GetComponent<Rigidbody2D> ().position += speed * Vector2.right * push * Time.deltaTime;
+				facingRigh = false;
+				Flip (facingRigh);
+			}
 		}
+	}
+
+	void CheckPlayerAnimations()
+	{
+		Animator anim = Player.GetComponent<Animator> ();
+		anim.SetBool ("idle", a_idle);
+		anim.SetBool ("jump", a_jump);
+		anim.SetBool ("attack", a_attack);
+	}
+
+	void Flip(bool val)
+	{
+		Player.GetComponent<SpriteRenderer> ().flipX = val;
 	}
 	void MoveUp()
 	{
@@ -502,6 +533,9 @@ public class GameController : MonoBehaviour {
 		isLeft = false;
 		isDown = false;
 		isUp = false;
+		a_idle = true;
+		a_jump = false;
+		a_attack = false;
 	}
 
 	public void ShowCanvasGameOver()
@@ -558,6 +592,7 @@ public class GameController : MonoBehaviour {
 		bPrefab.SetActive (true);
 		bPrefab.GetComponent<PlayerController> ().enabled = true; 
 		bPrefab.GetComponent<BoxCollider2D> ().enabled = true; 
+		bPrefab.GetComponent<Animator> ().enabled = true;
 		Player = bPrefab;
 	}
 
