@@ -239,11 +239,11 @@ public class GameController : MonoBehaviour {
 
 	void HandleMovement()
 	{
-		if (isRight && isUp) {
+		if (isRight && isUp&&grounded) {
 			Jump ();
 			MoveRight (1);
 		} else {
-			if (isLeft && isUp) {
+			if (isLeft && isUp&&grounded) {
 				Jump ();
 				MoveLeft (-1);
 			} else {
@@ -257,7 +257,7 @@ public class GameController : MonoBehaviour {
 					if(!lose)
 						Shoot ();
 				}
-				if (isUp) {
+				if (isUp&&grounded) {
 					Jump ();
 					isUp = false;
 				}
@@ -472,8 +472,8 @@ public class GameController : MonoBehaviour {
 		if (Player.GetComponent<Rigidbody2D> () != null) {
 			jumps++;
 			if (jumps > 1) {
-				Player.GetComponent<Rigidbody2D> ().velocity = new Vector2(Player.GetComponent<Rigidbody2D> ().velocity.x, 0);
-				Player.GetComponent<Rigidbody2D> ().AddForce (new Vector2 (0, jumpForce));
+				//Player.GetComponent<Rigidbody2D> ().velocity = new Vector2(Player.GetComponent<Rigidbody2D> ().velocity.x, 0);
+				//Player.GetComponent<Rigidbody2D> ().AddForce (new Vector2 (0, jumpForce));
 				canDoublejump = false;
 				jumps = 0;
 			}
