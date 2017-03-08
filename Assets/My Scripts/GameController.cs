@@ -239,20 +239,33 @@ public class GameController : MonoBehaviour {
 
 	void HandleMovement()
 	{
-		if (isRight) {
-			MoveRight (1);
-		}
-		if (isLeft) {
-			MoveLeft (-1);
-		}
-		if (isDown) {
-			if(!lose)
-				Shoot ();
-		}
-		if (isUp) {
+		if (isRight && isUp) {
 			Jump ();
-			isUp = false;
+			MoveRight (1);
+		} else {
+			if (isLeft && isUp) {
+				Jump ();
+				MoveLeft (-1);
+			} else {
+				if (isRight) {
+					MoveRight (1);
+				}
+				if (isLeft) {
+					MoveLeft (-1);
+				}
+				if (isDown) {
+					if(!lose)
+						Shoot ();
+				}
+				if (isUp) {
+					Jump ();
+					isUp = false;
+				}
+			}
 		}
+
+
+
 		grounded = Player.GetComponent<PlayerController>().getGrounded();
 		if (grounded) {
 			canDoublejump = false;
@@ -536,6 +549,17 @@ public class GameController : MonoBehaviour {
 		a_idle = true;
 		a_jump = false;
 		a_attack = false;
+	}
+
+	public void ResetRight(){
+		isRight = false;
+	}
+	public void ResetLeft(){
+		isLeft = false;
+	}
+	public void ResetUp(){
+		isUp = false;
+		a_jump = false;
 	}
 
 	public void ShowCanvasGameOver()
