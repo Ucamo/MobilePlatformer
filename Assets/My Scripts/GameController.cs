@@ -573,6 +573,15 @@ public class GameController : MonoBehaviour {
 		decreasePublicSpeed (2);
 		Destroy (Player.GetComponent<Rigidbody2D> ());
 		lose = true;
+		StopBackground ();
+	}
+
+	public void StopBackground()
+	{
+		GameObject[] arrayBackground = GameObject.FindGameObjectsWithTag("background");
+		if (arrayBackground != null) {
+			arrayBackground [0].GetComponent<ScrollBackground> ().Stop ();
+		}
 	}
 
 	public void ShowCanvasWin()
