@@ -278,7 +278,7 @@ public class GameController : MonoBehaviour {
 	{
 		if (Player.GetComponent<Rigidbody2D> () != null) {
 			Vector2 forceVector = Vector2.down;
-			Vector3 firePosition = new Vector3(Player.transform.position.x, Player.transform.position.y, -1);
+			Vector3 firePosition = new Vector3(Player.transform.position.x, Player.transform.position.y-1, -1);
 			GameObject bPrefab = Instantiate(projectile, firePosition, Quaternion.identity) as GameObject;
 			if (currentMana > 0) {
 				GameObject secondBullet = Instantiate(projectile, new Vector3(firePosition.x+0.7f,firePosition.y,firePosition.z), Quaternion.identity) as GameObject;
