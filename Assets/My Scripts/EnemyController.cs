@@ -29,7 +29,22 @@ public class EnemyController : MonoBehaviour {
 
 		}
 		CheckHealth ();
+		CheckPosition ();
 		CheckPlayer ();
+	}
+
+	public void CheckPosition()
+	{
+		if (transform.position.x > 0) {
+			Flip (true);
+		} else {
+			Flip (false);
+		}
+	}
+
+	void Flip(bool val)
+	{
+		GetComponent<SpriteRenderer> ().flipX = val;
 	}
 
 	public int getEnemyAttack()
