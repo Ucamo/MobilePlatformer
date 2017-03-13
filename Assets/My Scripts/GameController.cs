@@ -160,8 +160,6 @@ public class GameController : MonoBehaviour {
 		if (Input.GetKeyUp (KeyCode.UpArrow)) {
 			ResetMovement ();
 		}
-
-
 	}
 
 	public void IncreaseMana(int val)
@@ -177,13 +175,30 @@ public class GameController : MonoBehaviour {
 
 	void CallMana(string value)
 	{
+		Color blue = new Color (0,0,1);
+		CallText (value, blue);
+	}
+
+	void CallLive(string value)
+	{
+		Color color = new Color (1,1,1);
+		CallText (value, color);
+	}
+
+	void CallText(string value, Color color)
+	{
 		if (Player != null) {
 			Vector3 firePosition = new Vector3(Player.gameObject.transform.position.x, Player.gameObject.transform.position.y, 0);
 			GameObject damage = (GameObject)Resources.Load ("Damage");
 			GameObject bPrefab = Instantiate(damage, firePosition, Quaternion.identity) as GameObject;
-			Color blue = new Color (0,0,1);
-			bPrefab.GetComponent<DamageController> ().CreateBonusColor (value,blue);
+			bPrefab.GetComponent<DamageController> ().CreateBonusColor (value,color);
 		}
+	}
+
+	void CallCoin(string value)
+	{
+		Color color = new Color (1,1,0);
+		CallText (value, color);
 	}
 
 	void CallDamageProtected(string value)
@@ -213,6 +228,7 @@ public class GameController : MonoBehaviour {
 
 	public void IncreaseCoin()
 	{
+		CallCoin ("+1");
 		coins++;
 	}
 
@@ -263,9 +279,6 @@ public class GameController : MonoBehaviour {
 				}
 			}
 		}
-
-
-
 		grounded = Player.GetComponent<PlayerController>().getGrounded();
 		if (grounded) {
 			canDoublejump = false;
@@ -331,7 +344,6 @@ public class GameController : MonoBehaviour {
 			GameObject[] objectProtected = GameObject.FindGameObjectsWithTag("Protected");
 			if (objectProtected != null) {
 				Destroy (objectProtected [0]);
-
 			}
 			ShowCanvasGameOver ();
 		}
@@ -439,6 +451,7 @@ public class GameController : MonoBehaviour {
 	{
 		ResetItemSlot ();
 		ActiveItemSlot (true);
+		CallLive ("New Item!");
 		Sprite itemSprite = item.GetComponent<SpriteRenderer> ().sprite;
 		Color itemColor = item.GetComponent<SpriteRenderer> ().color;
 		btnItem.GetComponent<Image>().sprite = itemSprite;
@@ -596,6 +609,7 @@ public class GameController : MonoBehaviour {
 
 	public void IncreaseLives()
 	{
+		CallLive ("+1UP");
 		lives++;
 	}
 
