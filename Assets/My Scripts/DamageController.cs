@@ -10,7 +10,6 @@ public class DamageController : MonoBehaviour {
 	public float lifeTime;
 
 	void Start () {
-	
 	}
 
 	public void CreateDamage(string value)
