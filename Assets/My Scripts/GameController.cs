@@ -258,10 +258,12 @@ public class GameController : MonoBehaviour {
 		if (isRight && isUp&&grounded) {
 			Jump ();
 			MoveRight (1);
+			grounded = true;
 		} else {
 			if (isLeft && isUp&&grounded) {
 				Jump ();
 				MoveLeft (-1);
+				grounded = true;
 			} else {
 				if (isRight) {
 					MoveRight (1);
@@ -464,7 +466,7 @@ public class GameController : MonoBehaviour {
 	}
 		
 
-	void Jump()
+	public void Jump()
 	{
 		if (Player.GetComponent<Rigidbody2D> () != null) {
 			if (Player.transform.position.y <= 6.24) {
