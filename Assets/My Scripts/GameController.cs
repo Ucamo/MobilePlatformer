@@ -128,8 +128,8 @@ public class GameController : MonoBehaviour {
 
 	void DrawUI()
 	{
-		txtCoins.text = "Coins: " + coins;
-		txtLives.text = "Lives: " + getLives ();
+		txtCoins.text = coins.ToString();
+		txtLives.text = getLives ().ToString();
 		CheckMana ();
 		CheckScoreBar ();
 	}
