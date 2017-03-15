@@ -421,7 +421,7 @@ public class GameController : MonoBehaviour {
 		GameObject[] enemyArray = GameObject.FindGameObjectsWithTag("Enemy");
 		if (enemyArray.Length>0 && enemyArray!=null) {
 			foreach (GameObject objEnemy in enemyArray) {
-				if (objEnemy.transform.position.y >= -3.5) {
+				if (objEnemy.transform.position.y >= -7.35) {
 					if (objEnemy.GetComponent<EnemyController> () != null) {
 						int enemyHealth = objEnemy.GetComponent<EnemyController> ().GetHealth ();
 						if (!objEnemy.name.Contains ("Boss")) {
@@ -704,7 +704,7 @@ public class GameController : MonoBehaviour {
 
 	void SpawnBoss()
 	{
-		Vector3 firePosition = new Vector3(0, -4.5f, -1);
+		Vector3 firePosition = new Vector3(0, -8, -1);
 		GameObject bPrefab = Instantiate(objBoss, firePosition, Quaternion.identity) as GameObject;
 		ShakeCamera (1f, 5f);
 	}
