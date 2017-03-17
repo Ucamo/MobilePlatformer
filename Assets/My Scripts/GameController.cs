@@ -674,6 +674,11 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
+	public void setWin(bool val)
+	{
+		win = val;
+	}
+
 	public void PlayLevelWarp()
 	{
 		StopWorld ();
