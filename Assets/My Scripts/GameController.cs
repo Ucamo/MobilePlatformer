@@ -56,6 +56,9 @@ public class GameController : MonoBehaviour {
 	bool a_jump;
 	bool a_attack;
 
+	public Sprite defaultItemSlot;
+	bool hasItem;
+
 	void Start()
 	{
 		gameOver = false;
@@ -132,7 +135,10 @@ public class GameController : MonoBehaviour {
 		txtLives.text = getLives ().ToString();
 		CheckMana ();
 		CheckScoreBar ();
+		CheckItemSlotAnimation ();
 	}
+
+
 
 	void KeyBoardMovement(){
 		if (Input.GetKeyDown (KeyCode.LeftArrow)) {
@@ -437,15 +443,27 @@ public class GameController : MonoBehaviour {
 
 	void ResetItemSlot()
 	{
+		hasItem = false;
 		ActiveItemSlot (false);
 		btnItem.GetComponent<Button> ().onClick.RemoveAllListeners ();
+		btnItem.GetComponent<Image> ().sprite = defaultItemSlot;
+		GameObject objItemSprite =  GameObject.Find("itemSprite");
+		objItemSprite.GetComponent<SpriteRenderer> ().sprite = null;
+	}
+
+	void CheckItemSlotAnimation()
+	{
+		if (hasItem) {
+			Sprite sprite = btnItem.GetComponent<SpriteRenderer> ().sprite;
+			btnItem.GetComponent<Image> ().sprite = sprite;
+		}
 	}
 
 	void ActiveItemSlot(bool value)
 	{
-		btnItem.GetComponent<Image> ().enabled = value;
+		//btnItem.GetComponent<Image> ().enabled = value;
 		btnItem.GetComponent<Button> ().enabled = value;
-		btnItem.enabled = value;
+		//btnItem.enabled = value;
 		btnItem.interactable = value;
 	}
 
@@ -456,13 +474,16 @@ public class GameController : MonoBehaviour {
 		CallLive ("New Item!");
 		Sprite itemSprite = item.GetComponent<SpriteRenderer> ().sprite;
 		Color itemColor = item.GetComponent<SpriteRenderer> ().color;
-		btnItem.GetComponent<Image>().sprite = itemSprite;
-		btnItem.GetComponent<Image> ().color = itemColor;
+		//btnItem.GetComponent<Image>().sprite = itemSprite;
+		GameObject objItemSprite =  GameObject.Find("itemSprite");
+		objItemSprite.GetComponent<SpriteRenderer> ().sprite = itemSprite;
+		objItemSprite.GetComponent<SpriteRenderer> ().color = itemColor;
 		if (item.name.Contains("Bomb")) {
 			btnItem.GetComponent<Button>().onClick.AddListener(() => DestroyAllEnemies());
 		}
 
 		Destroy (item);
+		hasItem = true;
 	}
 		
 
