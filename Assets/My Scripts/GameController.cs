@@ -65,7 +65,29 @@ public class GameController : MonoBehaviour {
 		jumps = 0;
 		coins = 0;
 		HideHealthBarProtected ();
+		GetPlayerPrefs();
 	}
+
+	void GetPlayerPrefs()
+	{
+		coins=PlayerPrefs.GetInt("coins", coins);
+		currentMana = PlayerPrefs.GetInt ("currentMana", currentMana);
+		int oldLives = PlayerPrefs.GetInt ("lives", lives);
+		if (oldLives <= 0) {
+			PlayerPrefs.SetInt ("lives", lives);
+		} else {
+			lives = oldLives;
+		}
+
+	}
+
+	void SetPlayerPrefs()
+	{
+		PlayerPrefs.SetInt ("coins", coins);
+		PlayerPrefs.SetInt ("currentMana", currentMana);
+		PlayerPrefs.SetInt ("lives", lives);
+	}
+
 	void Update()
 	{
 		if (Player != null) {
@@ -78,6 +100,7 @@ public class GameController : MonoBehaviour {
 			CheckPlayerAnimations ();
 		}
 		DrawUI ();
+		SetPlayerPrefs ();
 
 	}
 
