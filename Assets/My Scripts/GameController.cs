@@ -78,7 +78,18 @@ public class GameController : MonoBehaviour {
 		} else {
 			lives = oldLives;
 		}
+		CheckItemPlayerPref ();
+	}
 
+	void CheckItemPlayerPref()
+	{
+		string item = PlayerPrefs.GetString ("currentItem", null);
+		if (item != null && item != "null") {
+			if (item == "Bomb") {
+				GameObject bomb = (GameObject)Resources.Load ("Bomb");
+				AddItemToInventory (bomb);
+			}
+		}
 	}
 
 	void SetPlayerPrefs()
@@ -473,6 +484,7 @@ public class GameController : MonoBehaviour {
 		btnItem.GetComponent<Image> ().sprite = defaultItemSlot;
 		GameObject objItemSprite =  GameObject.Find("itemSprite");
 		objItemSprite.GetComponent<SpriteRenderer> ().sprite = null;
+		PlayerPrefs.SetString ("currentItem", null);
 	}
 
 	void CheckItemSlotAnimation()
@@ -498,6 +510,7 @@ public class GameController : MonoBehaviour {
 		CallLive ("New Item!");
 		Sprite itemSprite = item.GetComponent<SpriteRenderer> ().sprite;
 		Color itemColor = item.GetComponent<SpriteRenderer> ().color;
+		PlayerPrefs.SetString ("currentItem", item.name);
 		//btnItem.GetComponent<Image>().sprite = itemSprite;
 		GameObject objItemSprite =  GameObject.Find("itemSprite");
 		objItemSprite.GetComponent<SpriteRenderer> ().sprite = itemSprite;
