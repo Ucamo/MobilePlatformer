@@ -86,6 +86,7 @@ public class GameController : MonoBehaviour {
 		if (win) {
 			if (!levelBoss) {
 				PlayLevelWarp ();
+				bossDefeated = true;
 			} else {
 				if (!bossActive) {
 					SpawnBoss ();
