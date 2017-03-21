@@ -99,7 +99,8 @@ public class MainMenuController : MonoBehaviour {
 
 	public void DeleteUserData()
 	{
-		//TODO: Delete PlayerPrefs
+		//Delete PlayerPrefs
+		PlayerPrefs.DeleteAll();
 		GoToScene(TutorialScene);
 	}
 
