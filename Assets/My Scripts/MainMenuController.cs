@@ -11,6 +11,9 @@ public class MainMenuController : MonoBehaviour {
 	public Button btnStartAdventure;
 	public Button btnContinue;
 	public Button btnCredits;
+	public Canvas CanvasMainMenu;
+	public Canvas CanvasCredits;
+
 
 	void Start () {
 	
@@ -20,6 +23,29 @@ public class MainMenuController : MonoBehaviour {
 	{
 		//TODO: Show canvas asking if the player wants to delete the data of the game to start over.
 	}
+
+	void ShowCanvasCredits(bool value)
+	{
+		CanvasCredits.gameObject.SetActive (value);
+	}
+
+	void ShowCanvasMainMenu(bool value)
+	{
+		CanvasMainMenu.gameObject.SetActive (value);
+	}
+
+	public void ShowCanvasCredits()
+	{
+		ShowCanvasMainMenu (false);
+		ShowCanvasCredits (true);
+	}
+
+	public void ShowCanvasMainMenu()
+	{
+		ShowCanvasMainMenu (true);
+		ShowCanvasCredits (false);
+	}
+
 
 	public void StartAdventure()
 	{
