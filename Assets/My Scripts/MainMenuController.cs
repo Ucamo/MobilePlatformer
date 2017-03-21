@@ -7,6 +7,7 @@ public class MainMenuController : MonoBehaviour {
 	public string FirstLevelScene;
 	public string ContinueScene;
 	public string CreditsScene;
+	public string TutorialScene;
 	public Button btnStartAdventure;
 	public Button btnContinue;
 	public Button btnCredits;
@@ -23,6 +24,7 @@ public class MainMenuController : MonoBehaviour {
 	public void StartAdventure()
 	{
 		PullTextDown (btnStartAdventure);
+		DeleteUserData ();
 	}
 
 	public void StartAdventureUp()
@@ -72,7 +74,7 @@ public class MainMenuController : MonoBehaviour {
 	public void DeleteUserData()
 	{
 		//TODO: Delete PlayerPrefs
-		GoToScene(FirstLevelScene);
+		GoToScene(TutorialScene);
 	}
 
 	public void GoToScene(string nextSceneName)
