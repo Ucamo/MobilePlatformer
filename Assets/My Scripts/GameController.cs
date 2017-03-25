@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour {
 
@@ -70,6 +71,8 @@ public class GameController : MonoBehaviour {
 
 	void GetPlayerPrefs()
 	{
+		Scene scene = SceneManager.GetActiveScene();
+		PlayerPrefs.SetInt (scene.name, 1);
 		coins=PlayerPrefs.GetInt("coins", coins);
 		currentMana = PlayerPrefs.GetInt ("currentMana", currentMana);
 		int oldLives = PlayerPrefs.GetInt ("lives", lives);
@@ -510,6 +513,7 @@ public class GameController : MonoBehaviour {
 		CallLive ("New Item!");
 		Sprite itemSprite = item.GetComponent<SpriteRenderer> ().sprite;
 		Color itemColor = item.GetComponent<SpriteRenderer> ().color;
+		Debug.Log (item.name);
 		PlayerPrefs.SetString ("currentItem", item.name);
 		//btnItem.GetComponent<Image>().sprite = itemSprite;
 		GameObject objItemSprite =  GameObject.Find("itemSprite");

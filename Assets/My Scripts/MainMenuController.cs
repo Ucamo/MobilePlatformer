@@ -171,6 +171,11 @@ public class MainMenuController : MonoBehaviour {
 		GoToScene(FirstLevelScene);
 	}
 
+	public void GoToContinue()
+	{
+		GoToScene (ContinueScene);
+	}
+
 	public void GoToScene(string nextSceneName)
 	{
 		Application.LoadLevel(nextSceneName);
