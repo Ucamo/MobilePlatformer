@@ -331,6 +331,16 @@ public class GameController : MonoBehaviour {
 			jumps = 0;
 			a_jump = false;
 		}
+
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+			Scene scene = SceneManager.GetActiveScene();
+			if (scene.name == "MainMenu") {
+				Application.Quit();
+			} else {
+				Application.LoadLevel("MainMenu");
+			}
+		}
 	}
 
 	void Shoot()

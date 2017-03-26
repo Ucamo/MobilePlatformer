@@ -66,6 +66,7 @@ public class LevelSelectController : MonoBehaviour {
 		GameObject txt2=btn.transform.Find("Back").gameObject;
 		txt1.transform.position = new Vector2 (txt1.transform.position.x, txt1.transform.position.y + 3);
 		txt2.transform.position= new Vector2 (txt2.transform.position.x, txt2.transform.position.y + 3);
+
 	}
 
 	void UnlockButton(Button button)
