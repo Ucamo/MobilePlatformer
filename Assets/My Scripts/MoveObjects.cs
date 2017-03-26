@@ -18,6 +18,14 @@ public class MoveObjects : MonoBehaviour {
 	void Update () {
 		GetSpeed ();
 		CheckGameObjectType ();
+		CheckHeight ();
+	}
+
+	void CheckHeight()
+	{
+		if (gameObject.transform.position.y < -17) {
+			Destroy (gameObject);
+		}
 	}
 
 	void GetSpeed()

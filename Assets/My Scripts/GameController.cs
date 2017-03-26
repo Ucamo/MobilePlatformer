@@ -688,7 +688,7 @@ public class GameController : MonoBehaviour {
 
 	public void checkPlayerDeath()
 	{
-		if (lives <= 0) {
+		if (lives < 0) {
 			ShowCanvasGameOver ();
 		} else {
 			//Spawn character
@@ -771,7 +771,7 @@ public class GameController : MonoBehaviour {
 
 	void SpawnBoss()
 	{
-		Vector3 firePosition = new Vector3(0, -8, -1);
+		Vector3 firePosition = new Vector3(0, -5, -1);
 		GameObject bPrefab = Instantiate(objBoss, firePosition, Quaternion.identity) as GameObject;
 		ShakeCamera (1f, 5f);
 	}

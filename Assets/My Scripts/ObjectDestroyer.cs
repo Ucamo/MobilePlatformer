@@ -33,6 +33,10 @@ public class ObjectDestroyer : MonoBehaviour {
 		}
 	}
 
+	void OnCollisionExit2D(Collision2D coll) {
+		Destroy (coll.gameObject);
+	}
+
 	public void OnTriggerEnter2D(Collider2D node) {
 		Destroy(node.gameObject);
 		if (node.gameObject.name.Contains("Player")) {

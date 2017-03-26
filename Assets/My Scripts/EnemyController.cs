@@ -18,6 +18,21 @@ public class EnemyController : MonoBehaviour {
 	void Start () {
 		following = false;
 		HideHealthBar();
+		StartCoroutine(FadeOutCR());
+	}
+
+	private IEnumerator FadeOutCR()
+	{
+		float duration = 2f; //0.5 secs
+		float currentTime = 0f;
+		while(currentTime < duration)
+		{
+			float alpha = Mathf.Lerp(0f, 1f, currentTime/duration);
+			GetComponent<SpriteRenderer>().color = new Color(GetComponent<SpriteRenderer>().color.r, GetComponent<SpriteRenderer>().color.g, GetComponent<SpriteRenderer>().color.b, alpha);
+			currentTime += Time.deltaTime;
+			yield return null;
+		}
+		yield break;
 	}
 
 	void Update () {
