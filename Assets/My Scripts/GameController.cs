@@ -65,6 +65,13 @@ public class GameController : MonoBehaviour {
 	public AudioClip coinSound;
 	public AudioClip itemSound;
 	public AudioClip bombSound;
+	public AudioClip shootSound;
+	public AudioClip enemyShootSound;
+	public AudioClip enemy_Hit;
+	public AudioClip bossExplode;
+	public AudioClip enemyExplode;
+	public AudioClip ProtectedHurt;
+
 
 	void Start()
 	{
@@ -298,6 +305,7 @@ public class GameController : MonoBehaviour {
 	{
 		score += value;
 		CheckScore ();
+		PlayEnemyExplode ();
 	}
 
 	public int getScore()
@@ -377,6 +385,7 @@ public class GameController : MonoBehaviour {
 			bPrefab.GetComponent<Rigidbody2D>().AddForce(forceVector * bulletSpeed);
 			isDown = false;
 			a_attack = true;
+			PlayShootSound ();
 		}
 	}
 
@@ -409,6 +418,7 @@ public class GameController : MonoBehaviour {
 		healthOfProtected -= val;
 		CallDamageProtected ("-"+val.ToString ());
 		ShowHealthBarProtected();
+		PlayProtectedHurt ();
 		if (healthOfProtected <= 0) {
 			GameObject[] objectProtected = GameObject.FindGameObjectsWithTag("Protected");
 			if (objectProtected != null) {
@@ -416,6 +426,7 @@ public class GameController : MonoBehaviour {
 			}
 			ShowCanvasGameOver ();
 		}
+
 	}
 
 	void CheckMana()
@@ -842,6 +853,36 @@ public class GameController : MonoBehaviour {
 	public void PlayBombSound()
 	{
 		audioSource.PlayOneShot(bombSound, volume);
+	}
+
+	public void PlayShootSound()
+	{
+		audioSource.PlayOneShot(shootSound, volume);
+	}
+
+	public void PlayEnemyShootSound()
+	{
+		audioSource.PlayOneShot(enemyShootSound, volume);
+	}
+
+	public void PlayEnemyHit()
+	{
+		audioSource.PlayOneShot(enemy_Hit, volume);
+	}
+
+	public void PlayEnemyExplode()
+	{
+		audioSource.PlayOneShot(enemyExplode, volume);
+	}
+
+	public void PlayBossExplode()
+	{
+		audioSource.PlayOneShot(bossExplode, volume);
+	}
+
+	public void PlayProtectedHurt()
+	{
+		audioSource.PlayOneShot(ProtectedHurt, volume);
 	}
 		
 }

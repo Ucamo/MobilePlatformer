@@ -18,7 +18,12 @@ public class EnemyController : MonoBehaviour {
 	void Start () {
 		following = false;
 		HideHealthBar();
-		StartCoroutine(FadeOutCR());
+		if (!isProjectile) {
+			StartCoroutine(FadeOutCR());
+		}
+		if (isProjectile) {
+			PlayShootSound ();
+		}
 	}
 
 	private IEnumerator FadeOutCR()
@@ -75,6 +80,30 @@ public class EnemyController : MonoBehaviour {
 			charAttack = attack;
 		}
 
+	}
+
+	void PlayShootSound()
+	{
+		GameObject[] gc = GameObject.FindGameObjectsWithTag("GameController");
+		if (gc.Length > 0) {
+			gc [0].GetComponent<GameController> ().PlayEnemyShootSound ();
+		}
+	}
+
+	void PlayEnemyHit()
+	{
+		GameObject[] gc = GameObject.FindGameObjectsWithTag("GameController");
+		if (gc.Length > 0) {
+			gc [0].GetComponent<GameController> ().PlayEnemyHit ();
+		}
+	}
+
+	void PlayEnemyExplosion()
+	{
+		GameObject[] gc = GameObject.FindGameObjectsWithTag("GameController");
+		if (gc.Length > 0) {
+			gc [0].GetComponent<GameController> ().PlayEnemyExplode ();
+		}
 	}
 
 	void CheckHealth()
@@ -152,6 +181,7 @@ public class EnemyController : MonoBehaviour {
 		if (gc != null) {
 			int charAttack = gc [0].GetComponent<GameController> ().getAttack ();
 			currentHealth -= value;
+			PlayEnemyHit ();
 			if (!isProjectile) {
 				CallDamage (value);
 				ShowHealthBar ();
@@ -166,14 +196,15 @@ public class EnemyController : MonoBehaviour {
 					} else {
 						gc [0].GetComponent<GameController> ().ProtectedDropItem ();
 					}
+					PlayEnemyExplosion ();
 				} else {
 					CallWord ("DEFENDED");
 				}
 				if (isBoss) {
 					gc [0].GetComponent<GameController> ().SetBossDefeated (true);
+					gc [0].GetComponent<GameController> ().PlayBossExplode();
 				}
 				Destroy (this.gameObject.gameObject);
-
 			}
 		}
 	}
