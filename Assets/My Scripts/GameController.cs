@@ -60,6 +60,12 @@ public class GameController : MonoBehaviour {
 	public Sprite defaultItemSlot;
 	bool hasItem;
 
+	AudioSource audioSource;
+	public float volume;
+	public AudioClip coinSound;
+	public AudioClip itemSound;
+	public AudioClip bombSound;
+
 	void Start()
 	{
 		gameOver = false;
@@ -67,6 +73,11 @@ public class GameController : MonoBehaviour {
 		coins = 0;
 		HideHealthBarProtected ();
 		GetPlayerPrefs();
+	}
+
+	void Awake()
+	{
+		audioSource = GetComponent<AudioSource>();
 	}
 
 	void GetPlayerPrefs()
@@ -215,6 +226,7 @@ public class GameController : MonoBehaviour {
 			CallMana ("MAX");
 			currentMana = maxMana;
 		}
+		PlayItemSound ();
 	}
 
 	void CallMana(string value)
@@ -274,6 +286,7 @@ public class GameController : MonoBehaviour {
 	{
 		CallCoin ("+1");
 		coins++;
+		PlayCoinSound ();
 	}
 
 	public int getCoins()
@@ -485,6 +498,7 @@ public class GameController : MonoBehaviour {
 				}
 			}
 		}
+		PlayBombSound ();
 		//Reset item slot
 		ResetItemSlot();
 	}
@@ -514,6 +528,7 @@ public class GameController : MonoBehaviour {
 		btnItem.GetComponent<Button> ().enabled = value;
 		//btnItem.enabled = value;
 		btnItem.interactable = value;
+		PlayItemSound ();
 	}
 
 	public void AddItemToInventory(GameObject item)
@@ -523,7 +538,6 @@ public class GameController : MonoBehaviour {
 		CallLive ("New Item!");
 		Sprite itemSprite = item.GetComponent<SpriteRenderer> ().sprite;
 		Color itemColor = item.GetComponent<SpriteRenderer> ().color;
-		Debug.Log (item.name);
 		PlayerPrefs.SetString ("currentItem", item.name);
 		//btnItem.GetComponent<Image>().sprite = itemSprite;
 		GameObject objItemSprite =  GameObject.Find("itemSprite");
@@ -813,6 +827,21 @@ public class GameController : MonoBehaviour {
 		} else {
 			return null;
 		}
+	}
+
+	public void PlayItemSound()
+	{
+		audioSource.PlayOneShot(itemSound, volume);
+	}
+
+	public void PlayCoinSound()
+	{
+		audioSource.PlayOneShot(coinSound, volume);
+	}
+
+	public void PlayBombSound()
+	{
+		audioSource.PlayOneShot(bombSound, volume);
 	}
 		
 }
