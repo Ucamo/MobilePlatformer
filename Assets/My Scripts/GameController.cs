@@ -132,8 +132,6 @@ public class GameController : MonoBehaviour {
 			CheckPlayerAnimations ();
 		}
 		DrawUI ();
-		SetPlayerPrefs ();
-
 	}
 
 	public void CheckEvents()
@@ -677,6 +675,7 @@ public class GameController : MonoBehaviour {
 	public void ShowCanvasGameOver()
 	{
 		CanvasGameOver.gameObject.SetActive (true);
+		SetPlayerPrefs ();
 		StopWorld ();
 	}
 
@@ -699,6 +698,7 @@ public class GameController : MonoBehaviour {
 	public void ShowCanvasWin()
 	{
 		CanvasWin.gameObject.SetActive (true);
+		SetPlayerPrefs ();
 	}
 
 	public void ReloadScene()
