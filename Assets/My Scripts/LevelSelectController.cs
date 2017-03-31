@@ -9,8 +9,22 @@ public class LevelSelectController : MonoBehaviour {
 	public Button btnLvl1_2;
 	public Button btnLvl1_3;
 
+	AudioSource audioSource;
+	public float volume;
+	public AudioClip selectButton;
+
 	void Start () {
 		LoadUnlockedLevels ();
+	}
+
+	void Awake()
+	{
+		audioSource = GetComponent<AudioSource>();
+	}
+
+	public void PlaySelectSound()
+	{
+		audioSource.PlayOneShot(selectButton, volume);
 	}
 		
 	void LoadUnlockedLevels()
@@ -89,19 +103,23 @@ public class LevelSelectController : MonoBehaviour {
 
 	public void GoTo1_1()
 	{
+		PlaySelectSound ();
 		GoToScene ("Level_1_1");
 	}
 	public void GoTo1_2()
 	{
+		PlaySelectSound ();
 		GoToScene ("Level_1_2");
 	}
 	public void GoTo1_3()
 	{
+		PlaySelectSound ();
 		GoToScene ("Level_1_3");
 	}
 
 	public void GoToMainMenu()
 	{
+		PlaySelectSound ();
 		GoToScene ("MainMenu");
 	}
 }

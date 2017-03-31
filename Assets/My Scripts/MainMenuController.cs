@@ -18,8 +18,22 @@ public class MainMenuController : MonoBehaviour {
 	public Canvas CanvasDeleteSaves;
 	public Canvas CanvasTutorial;
 
+	AudioSource audioSource;
+	public float volume;
+	public AudioClip selectButton;
+
 	void Start () {
 	
+	}
+
+	void Awake()
+	{
+		audioSource = GetComponent<AudioSource>();
+	}
+
+	public void PlaySelectSound()
+	{
+		audioSource.PlayOneShot(selectButton, volume);
 	}
 
 	void ShowCanvasCredits(bool value)
@@ -48,6 +62,7 @@ public class MainMenuController : MonoBehaviour {
 		ShowCanvasCredits (true);
 		ShowCanvasDeleteSaves (false);
 		ShowCanvasTutorial (false);
+		PlaySelectSound ();
 	}
 
 	public void ShowCanvasMainMenu()
@@ -56,6 +71,7 @@ public class MainMenuController : MonoBehaviour {
 		ShowCanvasCredits (false);
 		ShowCanvasDeleteSaves (false);
 		ShowCanvasTutorial (false);
+		PlaySelectSound ();
 	}
 
 	public void ShowCanvasDeleteSaves()
@@ -64,6 +80,7 @@ public class MainMenuController : MonoBehaviour {
 		ShowCanvasCredits (false);
 		ShowCanvasDeleteSaves (true);
 		ShowCanvasTutorial (false);
+		PlaySelectSound ();
 	}
 
 	public void ShowCanvasTutorial()
@@ -72,6 +89,7 @@ public class MainMenuController : MonoBehaviour {
 		ShowCanvasCredits (false);
 		ShowCanvasDeleteSaves (false);
 		ShowCanvasTutorial (true);
+		PlaySelectSound ();
 	}
 
 
@@ -163,16 +181,19 @@ public class MainMenuController : MonoBehaviour {
 
 	public void GoToTutorial()
 	{
+		PlaySelectSound ();
 		GoToScene(TutorialScene);
 	}
 
 	public void GoToFirstLevel()
 	{
+		PlaySelectSound ();
 		GoToScene(FirstLevelScene);
 	}
 
 	public void GoToContinue()
 	{
+		PlaySelectSound ();
 		GoToScene (ContinueScene);
 	}
 

@@ -62,14 +62,14 @@ public class GameController : MonoBehaviour {
 
 	AudioSource audioSource;
 	public float volume;
-	public AudioClip coinSound;
+	public AudioClip[] coinSound;
 	public AudioClip itemSound;
 	public AudioClip bombSound;
-	public AudioClip shootSound;
+	public AudioClip[] shootSound;
 	public AudioClip enemyShootSound;
-	public AudioClip enemy_Hit;
+	public AudioClip[] enemy_Hit;
 	public AudioClip bossExplode;
-	public AudioClip enemyExplode;
+	public AudioClip[] enemyExplode;
 	public AudioClip ProtectedHurt;
 
 
@@ -847,7 +847,8 @@ public class GameController : MonoBehaviour {
 
 	public void PlayCoinSound()
 	{
-		audioSource.PlayOneShot(coinSound, volume);
+		int index = Random.Range (0, coinSound.Length);
+		audioSource.PlayOneShot(coinSound[index], volume);
 	}
 
 	public void PlayBombSound()
@@ -857,7 +858,8 @@ public class GameController : MonoBehaviour {
 
 	public void PlayShootSound()
 	{
-		audioSource.PlayOneShot(shootSound, volume);
+		int index = Random.Range (0, shootSound.Length);
+		audioSource.PlayOneShot(shootSound[index], volume);
 	}
 
 	public void PlayEnemyShootSound()
@@ -867,12 +869,14 @@ public class GameController : MonoBehaviour {
 
 	public void PlayEnemyHit()
 	{
-		audioSource.PlayOneShot(enemy_Hit, volume);
+		int index = Random.Range (0, enemy_Hit.Length);
+		audioSource.PlayOneShot(enemy_Hit[index], volume);
 	}
 
 	public void PlayEnemyExplode()
 	{
-		audioSource.PlayOneShot(enemyExplode, volume);
+		int index = Random.Range (0, enemyExplode.Length);
+		audioSource.PlayOneShot(enemyExplode[index], volume);
 	}
 
 	public void PlayBossExplode()
