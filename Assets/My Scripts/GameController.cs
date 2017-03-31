@@ -71,6 +71,8 @@ public class GameController : MonoBehaviour {
 	public AudioClip bossExplode;
 	public AudioClip[] enemyExplode;
 	public AudioClip ProtectedHurt;
+	public AudioClip gameSong;
+	public AudioClip bossSong;
 
 
 	void Start()
@@ -85,6 +87,7 @@ public class GameController : MonoBehaviour {
 	void Awake()
 	{
 		audioSource = GetComponent<AudioSource>();
+		PlayGameSong ();
 	}
 
 	void GetPlayerPrefs()
@@ -806,6 +809,7 @@ public class GameController : MonoBehaviour {
 
 	void SpawnBoss()
 	{
+		PlayBossSong ();
 		Vector3 firePosition = new Vector3(0, -5, -1);
 		GameObject bPrefab = Instantiate(objBoss, firePosition, Quaternion.identity) as GameObject;
 		ShakeCamera (1f, 5f);
@@ -842,51 +846,64 @@ public class GameController : MonoBehaviour {
 
 	public void PlayItemSound()
 	{
-		audioSource.PlayOneShot(itemSound, volume);
+		audioSource.PlayOneShot(itemSound, volume/2);
 	}
 
 	public void PlayCoinSound()
 	{
 		int index = Random.Range (0, coinSound.Length);
-		audioSource.PlayOneShot(coinSound[index], volume);
+		audioSource.PlayOneShot(coinSound[index], volume/2);
 	}
 
 	public void PlayBombSound()
 	{
-		audioSource.PlayOneShot(bombSound, volume);
+		audioSource.PlayOneShot(bombSound, volume/2);
 	}
 
 	public void PlayShootSound()
 	{
 		int index = Random.Range (0, shootSound.Length);
-		audioSource.PlayOneShot(shootSound[index], volume);
+		audioSource.PlayOneShot(shootSound[index], volume/2);
 	}
 
 	public void PlayEnemyShootSound()
 	{
-		audioSource.PlayOneShot(enemyShootSound, volume);
+		audioSource.PlayOneShot(enemyShootSound, volume/2);
 	}
 
 	public void PlayEnemyHit()
 	{
 		int index = Random.Range (0, enemy_Hit.Length);
-		audioSource.PlayOneShot(enemy_Hit[index], volume);
+		audioSource.PlayOneShot(enemy_Hit[index], volume/2);
 	}
 
 	public void PlayEnemyExplode()
 	{
 		int index = Random.Range (0, enemyExplode.Length);
-		audioSource.PlayOneShot(enemyExplode[index], volume);
+		audioSource.PlayOneShot(enemyExplode[index], volume/2);
 	}
 
 	public void PlayBossExplode()
 	{
-		audioSource.PlayOneShot(bossExplode, volume);
+		audioSource.PlayOneShot(bossExplode, volume/2);
 	}
 
 	public void PlayProtectedHurt()
 	{
-		audioSource.PlayOneShot(ProtectedHurt, volume);
+		audioSource.PlayOneShot(ProtectedHurt, volume/2);
+	}
+
+	public void PlayGameSong()
+	{
+		audioSource.loop = true;
+		audioSource.PlayOneShot(gameSong, volume);
+	}
+
+	public void PlayBossSong()
+	{
+		audioSource.Stop();
+		audioSource.loop = true;
+		audioSource.PlayOneShot(bossSong, volume);
 	}
 		
 }
