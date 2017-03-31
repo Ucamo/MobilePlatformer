@@ -73,7 +73,11 @@ public class GameController : MonoBehaviour {
 	public AudioClip ProtectedHurt;
 	public AudioClip gameSong;
 	public AudioClip bossSong;
+	public AudioClip winSong;
+	public AudioClip gameOverSong;
 
+	bool playGameOver;
+	bool playWin;
 
 	void Start()
 	{
@@ -679,6 +683,7 @@ public class GameController : MonoBehaviour {
 	{
 		CanvasGameOver.gameObject.SetActive (true);
 		SetPlayerPrefs ();
+		PlayGameOverSong ();
 		StopWorld ();
 	}
 
@@ -702,6 +707,7 @@ public class GameController : MonoBehaviour {
 	{
 		CanvasWin.gameObject.SetActive (true);
 		SetPlayerPrefs ();
+		PlayWinSong ();
 	}
 
 	public void ReloadScene()
@@ -904,6 +910,26 @@ public class GameController : MonoBehaviour {
 		audioSource.Stop();
 		audioSource.loop = true;
 		audioSource.PlayOneShot(bossSong, volume);
+	}
+
+	public void PlayWinSong()
+	{
+		if (!playWin) {
+			audioSource.Stop();
+			audioSource.loop = true;
+			audioSource.PlayOneShot(winSong, volume);
+			playWin = true;
+		}
+	}
+
+	public void PlayGameOverSong()
+	{
+		if (!playGameOver) {
+			audioSource.Stop();
+			audioSource.loop = true;
+			audioSource.PlayOneShot(gameOverSong, volume);
+			playGameOver = true;
+		}
 	}
 		
 }
